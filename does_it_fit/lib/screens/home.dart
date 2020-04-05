@@ -9,10 +9,10 @@ class HomePage extends StatelessWidget {
 
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: PreferredSize(
-          preferredSize: Size.fromHeight(80.0),
-          child: new CustomAppbar('Does it fit?'),
-        ),
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        elevation: 0,
+      ),
       body: Center(
         child: DisplayCalc(),
         ),

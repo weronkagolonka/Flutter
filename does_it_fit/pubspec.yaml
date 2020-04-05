@@ -25,6 +25,7 @@ dependencies:
   cupertino_icons: ^0.1.2
 
 dev_dependencies:
+  sliding_up_panel: ^1.0.1
   flutter_test:
     sdk: flutter
 
@@ -34,7 +35,19 @@ dev_dependencies:
 
 # The following section is specific to Flutter.
 flutter:
-
+  fonts:
+    - family: Product Sans
+      fonts:
+        - asset: fonts/Product-Sans-400.ttf
+          style:  normal
+        - asset: fonts/Product-Sans-Bold-700.ttf
+          weight: 700
+        - asset: fonts/Product-Sans-Bold-Italic-700.ttf
+          style: italic
+          weight: 700
+        - asset: fonts/Product-Sans-Italic-400.ttf
+          style: italic
+        
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.

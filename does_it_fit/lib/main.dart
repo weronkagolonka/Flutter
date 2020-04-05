@@ -10,7 +10,7 @@ void main() {
   //values from 0.001 to 1000
   //(name, volume, min:overwrite,max:overwrite)
   //cm^3
-  ctrl.createUnit('Beer', 500);
+  ctrl.createUnit('beer', 500);
   ctrl.createUnit('30 l School bag', 30000);
   ctrl.createUnit('Pidgeon\'s feather', 12.75);
   ctrl.createUnit('Fridge', 538882.92);
@@ -29,6 +29,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Does is fit?',
+      theme: ThemeData(fontFamily: 'Product Sans'),
       home: HomePage(),
       //theme: ThemeData(fontFamily: ),
     );

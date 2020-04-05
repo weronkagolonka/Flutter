@@ -9,7 +9,7 @@ import '../main.dart';
 
 //PUT ALLT THE STATEFUL WIDGETS IN THIS CLASS
 
-String toDisplay = display();
+//String toDisplay = display();
 Unit currentUnit1 = ctrl.getAllUnits()[0];
 Unit currentUnit2 = ctrl.getAllUnits()[0];
 double _value = currentUnit1.getMin().roundToDouble();
@@ -19,28 +19,82 @@ double min = currentUnit1.getMin().roundToDouble();
 double max = currentUnit1.getMax().roundToDouble();
 int howmany1 = _value.round();
 
-String display() {
-
-  int maybe = getCalc(currentUnit1, currentUnit2, howmany1).round();
-  String text;
+bool display() {
 
   if(getCalc(currentUnit1, currentUnit2, howmany1) >= 1) {
-    if (howmany1 == 1) {
-      text = 'You can fit one $dropdownValue1 in one $dropdownValue2';
-    } else {
-      text = 'You can fit $howmany1 ${dropdownValue1}s in one $dropdownValue2';
-      
-    }
+    return true; 
   } else {
-    text = 'You cannot fit $howmany1 $dropdownValue1 in one $dropdownValue2! (or maybe $maybe...)';
+    return false;
   }
 
-  return text;
 }
 
 double getCalc(Unit currentUnit1, Unit currentUnit2, int howmany) {
   double balance = ctrl.calculate(ctrl.getAllUnits().indexOf(currentUnit1), ctrl.getAllUnits().indexOf(currentUnit2), howmany);
   return balance;
+}
+
+Widget canOrCant() {
+  if (display()) {
+    return RichText(
+      text: TextSpan(
+        text: 'You ',
+        style: TextStyle(color: Colors.black, fontSize: 42),
+        children: <TextSpan> [
+          TextSpan(text: 'can', style: TextStyle(fontWeight: FontWeight.bold)),
+          TextSpan(text: ' fit'),
+          ],
+      ),
+      );
+  } else {
+    return RichText(
+      text: TextSpan(
+        text: 'You ',
+        style: TextStyle(color: Colors.black, fontSize: 42),
+        children: <TextSpan> [
+          TextSpan(text: 'can\'t', style: TextStyle(fontWeight: FontWeight.bold, color: Colors.red[400])),
+          TextSpan(text: ' fit'),
+        ],
+      ),
+      );
+  }
+}
+
+OutlineInputBorder colorBorder() {
+  if (display()) {
+    return OutlineInputBorder(
+      borderRadius: BorderRadius.all(Radius.circular(10)),
+      borderSide: BorderSide(color: Colors.green[500], width: 5, style: BorderStyle.solid),
+      gapPadding: 15,
+    );
+  } else {
+    return OutlineInputBorder(
+      borderRadius: BorderRadius.all(Radius.circular(10)),
+      borderSide: BorderSide(color: Colors.red[500], width: 5, style: BorderStyle.solid),
+    );
+  }
+}
+
+Widget plural(String value) {
+  String item;
+  if (howmany1 == 1) {
+    item = value;
+  } else {
+    item = value + 's';
+  }
+  return Text(item);
+}
+
+List<String> fillString() {
+  List<String> strUnits = new List<String>();
+  for (Unit u in ctrl.getAllUnits()) {
+    strUnits.add(u.getName());
+  }
+  return strUnits;
+}
+
+Widget renderList() {
+  return
 }
 
 
@@ -50,14 +104,7 @@ class DisplayCalc extends StatefulWidget {
 
 class _DisplayCalc extends State<DisplayCalc> {
   TextEditingController myController;
-
-  List<String> fillString() {
-    List<String> strUnits = new List<String>();
-    for (Unit u in ctrl.getAllUnits()) {
-      strUnits.add(u.getName());
-    }
-    return strUnits;
-  }
+  FocusNode myFocus = FocusNode();
 
   @override
   void dispose() {
@@ -82,9 +129,7 @@ class _DisplayCalc extends State<DisplayCalc> {
           Expanded(
             child: Padding(
               padding: EdgeInsets.all(1),
-              child: Text(
-                'You can fit'
-              ),
+              child: canOrCant(),       //YOU CAN FIT
             )
           ),
           Container(
@@ -98,7 +143,7 @@ class _DisplayCalc extends State<DisplayCalc> {
                   child: Padding(
                     padding: EdgeInsets.all(1),
                     child: IconButton(
-                      icon: Icon(Icons.remove_circle_outline),
+                      icon: Icon(Icons.remove, size: 42,),
                       onPressed: () {
                         setState(() {
                           if(howmany1 > 0) {
@@ -116,13 +161,20 @@ class _DisplayCalc extends State<DisplayCalc> {
                   child: Padding(
                     padding: EdgeInsets.all(1),
                     child: TextField(
+                      focusNode: myFocus,
                       keyboardType: TextInputType.number,
                       inputFormatters: <TextInputFormatter>[WhitelistingTextInputFormatter.digitsOnly],
                       textAlign: TextAlign.center,
-                      showCursor: false,
+                      style: TextStyle(
+                        fontSize: 42,
+                      ),
                       decoration: InputDecoration(
                         hintText: howmany1.toString(),
-                        hintStyle: TextStyle(),
+                        hintStyle: TextStyle(fontSize: 42),
+                        border: colorBorder(),
+                        enabledBorder: colorBorder(),
+                        disabledBorder: colorBorder(),
+                        focusedBorder: colorBorder(),
                       ),
                       controller: myController,
                       onChanged: (String input) {
@@ -143,7 +195,7 @@ class _DisplayCalc extends State<DisplayCalc> {
                   child: Padding(
                     padding: EdgeInsets.all(1),
                     child: IconButton(
-                      icon: Icon(Icons.add_circle_outline), 
+                      icon: Icon(Icons.add, size: 42), 
                       onPressed: () {
                         setState(() {
                           howmany1 += 1;
@@ -156,51 +208,61 @@ class _DisplayCalc extends State<DisplayCalc> {
               ],
               ),
             ),
-            Expanded(
-              child: DropdownButton<String>(
-                hint: Text('lolo'),
-                value: dropdownValue1,
-                icon: Icon(Icons.arrow_drop_down),
-                iconSize: 20,
-                underline: Container(
-                  height: 0,
-                ),
-                onChanged: (String newValue) {
-                  setState(() {
-                    dropdownValue1 = newValue;
-                    
-                    for (Unit u in ctrl.getAllUnits()) {
-                      if (u.getName() == dropdownValue1) {
-                        currentUnit1 = u;
-                      }
-                    }
-                    toDisplay = display();
-                  });
-                },
-                items: fillString().map<DropdownMenuItem<String>>((String value) {
-                  return DropdownMenuItem<String>(
-                    value: value,
-                    child: Text(value),
-                    );
-                }).toList(), 
-                ),
-              ),
-            Expanded(
-              child: Padding(
-                padding: EdgeInsets.all(1),
-                child: Text('in a'),
+            Container(
+              alignment: Alignment.center,
+              margin: EdgeInsets.symmetric(horizontal: 30),
+              child: Row(
+                children: <Widget>[
+                  Container(
+                    child: Text(
+                      '$dropdownValue1',
+                      style: TextStyle(
+                        fontSize: 42,
+                        fontWeight: FontWeight.bold,
+                        fontStyle: FontStyle.italic,
+                      ),
+                      ),
+                  ),
+                  Container(
+                    child: IconButton(
+                      icon: Icon(Icons.arrow_drop_down, size: 30), 
+                      onPressed: () {
+                        
+                      }),
+                  ),
+                ],
               ),
             ),
             Expanded(
               child: Padding(
                 padding: EdgeInsets.all(1),
+                child: Text(
+                  'in a', 
+                style: TextStyle(
+                  fontSize: 42,
+                ),
+                ),
+              ),
+            ),
+            Expanded(
+              child: Padding(
+                padding: EdgeInsets.all(5),
                 child: DropdownButton<String>(
                   hint: Text('lolo'),
                   value: dropdownValue2,
                   icon: Icon(Icons.arrow_drop_down),
-                  iconSize: 20,
+                  iconSize: 30,
                   underline: Container(
-                    height: 0,
+                    height: 5,
+                    margin: EdgeInsets.only(bottom: 45, right: 100),
+                    width: ((dropdownValue1.length).roundToDouble()),
+                    color: Colors.black,
+                  ),
+                  style: TextStyle(
+                    fontStyle: FontStyle.italic,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black,
+                    fontSize: 42,
                   ),
                   onChanged: (String newValue) {
                     setState(() {
@@ -210,7 +272,7 @@ class _DisplayCalc extends State<DisplayCalc> {
                           currentUnit2 = u;
                         }
                       }
-                      toDisplay = display();
+                      //toDisplay = display();
                     });
                   },
                   items: fillString().map<DropdownMenuItem<String>>((String value) {
