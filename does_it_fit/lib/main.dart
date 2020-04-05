@@ -1,56 +1,40 @@
-// Copyright 2018 The Flutter team. All rights reserved.
-// Use of this source code is governed by a BSD-style license that can be
-// found in the LICENSE file.
-
+import 'package:does_it_fit/models/Dependencies.dart';
+import 'package:does_it_fit/screens/DisplayCalc.dart';
+import 'package:does_it_fit/screens/home.dart';
 import 'package:flutter/material.dart';
 
-void main() => runApp(MyApp());
+Dependencies ctrl = new Dependencies();
+
+void main() {
+  //10 basic units
+  //values from 0.001 to 1000
+  //(name, volume, min:overwrite,max:overwrite)
+  //cm^3
+  ctrl.createUnit('Beer', 500);
+  ctrl.createUnit('30 l School bag', 30000);
+  ctrl.createUnit('Pidgeon\'s feather', 12.75);
+  ctrl.createUnit('Fridge', 538882.92);
+  ctrl.createUnit('Saturn V Rocket', 8856610210);
+  ctrl.createUnit('Fiat Multipla', 7908864);
+  ctrl.createUnit('Potato chip', 2.12);
+  ctrl.createUnit('Rice grain', 0.055);
+  //ctrl.createUnit('Tent', 1.0);
+  //ctrl.createUnit('Beer', 1.0);
+
+  runApp(MyApp());
+  }
 
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Does is fit?',
-      home: Scaffold(
-        appBar: PreferredSize(
-          preferredSize: Size.fromHeight(80.0),
-          child: new TestWidgets('Does it fit?'),
-        ),
-        body: Center(
-          child: Text('yuppp', textAlign: TextAlign.right,),
-        )
-      ),
+      home: HomePage(),
+      //theme: ThemeData(fontFamily: ),
     );
   }
 
 }
 
-class TestWidgets extends StatelessWidget {
-  
-  final String title;
-  final double barHeight = 100.0;
+//add units here
 
-  TestWidgets(this.title);
-
-  @override
-  Widget build(BuildContext context) {
-    final double statusBarHeight = MediaQuery
-      .of(context) 
-      .padding
-      .top;
-
-    return new Container(
-      color: Color.fromRGBO(38, 32, 32, 1),
-      padding: new EdgeInsets.only(top: statusBarHeight),
-      height: statusBarHeight + barHeight,
-      child: new Align(
-        alignment: Alignment(-0.8, 0),
-        child: new Text(
-          title,
-          style: new TextStyle(fontSize: 40.0, fontWeight: FontWeight.bold, color: Colors.white),
-          textAlign: TextAlign.center,
-        ),
-      ),
-    );
-  }
-}
