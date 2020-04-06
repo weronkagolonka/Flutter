@@ -93,10 +93,11 @@ List<String> fillString() {
   return strUnits;
 }
 
+/*
 Widget renderList() {
   return
 }
-
+*/
 
 class DisplayCalc extends StatefulWidget {
   _DisplayCalc createState() => _DisplayCalc();
@@ -217,7 +218,7 @@ class _DisplayCalc extends State<DisplayCalc> {
                     child: Text(
                       '$dropdownValue1',
                       style: TextStyle(
-                        fontSize: 42,
+                        fontSize: 38,
                         fontWeight: FontWeight.bold,
                         fontStyle: FontStyle.italic,
                       ),
@@ -225,10 +226,51 @@ class _DisplayCalc extends State<DisplayCalc> {
                   ),
                   Container(
                     child: IconButton(
-                      icon: Icon(Icons.arrow_drop_down, size: 30), 
+                      icon: Icon(Icons.arrow_drop_down_circle, size: 30), 
                       onPressed: () {
-                        
-                      }),
+                        scaffoldKey.currentState.showBottomSheet((context) => 
+                        Container(
+                          width: 500,
+                          height: 800,
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            border: Border.all(color: Colors.grey, width: 1, style: BorderStyle.solid),
+                            borderRadius: BorderRadius.all(Radius.circular(30)),
+                          ),
+                          child: Column(
+                            children: <Widget>[
+                              ListTile(
+                                title: Text('I wanna fit...', style: TextStyle(fontSize: 42, fontWeight: FontWeight.bold),),
+                              ),
+                              ListView.builder(
+                                controller: ScrollController(),
+                                shrinkWrap: true,
+                                itemCount: ctrl.getAllUnits().length,
+                                itemBuilder: (context, index) {
+                                  final item = ctrl.getAllUnits()[index];
+
+                                  return ListTile(
+                                    title: Text(
+                                      item.getName(),
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(fontSize: 42),
+                                      ),
+                                      onTap: () {
+                                        setState(() {
+                                          currentUnit1 = item;
+                                          dropdownValue1 = item.getName();
+                                          Navigator.pop(context);
+                                        });
+                                      },
+                                  );
+                                }
+                              ),
+                            ],
+                          ),
+                        ),
+                      );
+                    },
+                    ),
                   ),
                 ],
               ),
@@ -244,50 +286,77 @@ class _DisplayCalc extends State<DisplayCalc> {
                 ),
               ),
             ),
-            Expanded(
-              child: Padding(
-                padding: EdgeInsets.all(5),
-                child: DropdownButton<String>(
-                  hint: Text('lolo'),
-                  value: dropdownValue2,
-                  icon: Icon(Icons.arrow_drop_down),
-                  iconSize: 30,
-                  underline: Container(
-                    height: 5,
-                    margin: EdgeInsets.only(bottom: 45, right: 100),
-                    width: ((dropdownValue1.length).roundToDouble()),
-                    color: Colors.black,
+            Container(
+              alignment: Alignment.center,
+              margin: EdgeInsets.symmetric(horizontal: 30),
+              child: Row(
+                children: <Widget>[
+                  Container(
+                    child: Text(
+                      '$dropdownValue2',
+                      style: TextStyle(
+                        fontSize: 38,
+                        fontWeight: FontWeight.bold,
+                        fontStyle: FontStyle.italic,
+                      ),
+                      ),
                   ),
-                  style: TextStyle(
-                    fontStyle: FontStyle.italic,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black,
-                    fontSize: 42,
-                  ),
-                  onChanged: (String newValue) {
-                    setState(() {
-                      dropdownValue2 = newValue;
-                      for (Unit u in ctrl.getAllUnits()) {
-                        if (u.getName() == dropdownValue2) {
-                          currentUnit2 = u;
-                        }
-                      }
-                      //toDisplay = display();
-                    });
-                  },
-                  items: fillString().map<DropdownMenuItem<String>>((String value) {
-                    return DropdownMenuItem<String>(
-                      value: value,
-                      child: Text(value),
+                  Container(
+                    child: IconButton(
+                      icon: Icon(Icons.arrow_drop_down_circle, size: 30), 
+                      onPressed: () {
+                        scaffoldKey.currentState.showBottomSheet((context) => 
+                        Container(
+                          width: 500,
+                          height: 800,
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            border: Border.all(color: Colors.grey, width: 1, style: BorderStyle.solid),
+                            borderRadius: BorderRadius.all(Radius.circular(30)),
+                          ),
+                          child: Column(
+                            children: <Widget>[
+                              ListTile(
+                                //dropdownvalue is a button - MAYBE...
+                                title: Text('$dropdownValue1 in a...', style: TextStyle(fontSize: 42, fontWeight: FontWeight.bold),),
+                              ),
+                              ListView.builder(
+                                controller: ScrollController(),
+                                shrinkWrap: true,
+                                itemCount: ctrl.getAllUnits().length,
+                                itemBuilder: (context, index) {
+                                  final item = ctrl.getAllUnits()[index];
+
+                                  return ListTile(
+                                    title: Text(
+                                      item.getName(),
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(fontSize: 42),
+                                      ),
+                                      onTap: () {
+                                        setState(() {
+                                          currentUnit2 = item;
+                                          dropdownValue2 = item.getName();
+                                          Navigator.pop(context);
+                                        });
+                                      },
+                                  );
+                                }
+                              ),
+                            ],
+                          ),
+                        ),
                       );
-                  }).toList(), 
-                ),
+                    },
+                    ),
+                  ),
+                ],
               ),
-              ),
+            ),
         ],
       ),
     );
-  }
+  } 
 
   /*
   Widget build(BuildContext context) {

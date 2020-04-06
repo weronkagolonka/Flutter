@@ -5,10 +5,14 @@ import 'package:does_it_fit/screens/MySlider.dart';
 import '../main.dart';
 import 'package:flutter/material.dart';
 
+final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
+
 class HomePage extends StatelessWidget { 
+  
 
   Widget build(BuildContext context) {
     return Scaffold(
+      key: scaffoldKey,
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0,
