@@ -75,14 +75,14 @@ OutlineInputBorder colorBorder() {
   }
 }
 
-Widget plural(String value) {
+String plural(String value) {
   String item;
   if (howmany1 == 1) {
     item = value;
   } else {
     item = value + 's';
   }
-  return Text(item);
+  return item;
 }
 
 List<String> fillString() {
@@ -216,7 +216,7 @@ class _DisplayCalc extends State<DisplayCalc> {
                 children: <Widget>[
                   Container(
                     child: Text(
-                      '$dropdownValue1',
+                      '${plural(dropdownValue1)}',
                       style: TextStyle(
                         fontSize: 38,
                         fontWeight: FontWeight.bold,
