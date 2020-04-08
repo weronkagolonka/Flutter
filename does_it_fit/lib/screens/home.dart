@@ -8,28 +8,23 @@ import 'package:flutter/material.dart';
 final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
 
 class HomePage extends StatelessWidget { 
-  
 
   Widget build(BuildContext context) {
     return Scaffold(
       key: scaffoldKey,
-      appBar: AppBar(
-        backgroundColor: Colors.white,
+      appBar: PreferredSize(child: CustomAppbar(), preferredSize: Size.fromHeight(0)),
+      body: Material(
+        color: Colors.white,
         elevation: 0,
-      ),
-      body: Center(
         child: DisplayCalc(),
-        ),
+      ),
       );
   }
 }
 
 class CustomAppbar extends StatelessWidget {
   
-  final String title;
-  final double barHeight = 100.0;
-
-  CustomAppbar(this.title);
+  final double barHeight = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -39,17 +34,9 @@ class CustomAppbar extends StatelessWidget {
       .top;
 
     return new Container(
-      color: Color.fromRGBO(38, 32, 32, 1),
+      color: Colors.white,
       padding: new EdgeInsets.only(top: statusBarHeight),
       height: statusBarHeight + barHeight,
-      child: new Align(
-        alignment: Alignment(-0.8, 0),
-        child: new Text(
-          title,
-          style: new TextStyle(fontSize: 40.0, fontWeight: FontWeight.bold, color: Colors.white),
-          textAlign: TextAlign.center,
-        ),
-      ),
     );
   }
 }
