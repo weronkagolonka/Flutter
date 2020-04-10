@@ -8,7 +8,6 @@ import 'package:flutter/material.dart';
 final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
 
 class HomePage extends StatelessWidget { 
-
   Widget build(BuildContext context) {
     return Scaffold(
       key: scaffoldKey,
