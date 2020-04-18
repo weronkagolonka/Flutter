@@ -1,4 +1,3 @@
-import 'package:does_it_fit/screens/MyTextFormField.dart';
 import 'package:does_it_fit/screens/Splashscreen.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -399,146 +398,12 @@ class _DisplayCalc extends State<DisplayCalc> {
     addController4.clear();
   }
 
-  Widget renderList(bool isFirst) {
-    String value, title;
-    Unit curr;
-    List toRender = new List();
-    ScrollController listCtrl = new ScrollController();
-
-    if (isFirst) {
-      value = dropdownValue1;
-      title = 'I wanna fit...';
-      curr = currentUnit1;
-    } else {
-      value = dropdownValue2;
-      title = 'in a...';
-      curr = currentUnit2;
-    }
-
-    Widget closeBtn = ListTile(
-      contentPadding: EdgeInsets.all(20),
-      title: Text(
-        title,
-        textAlign: TextAlign.left,
-        style: TextStyle(fontSize: 42, fontWeight: FontWeight.bold),
-      ),
-      trailing: Icon(Icons.clear, size: 40, color: Colors.black,),
-      onTap: () => Navigator.pop(context),
-      );
-
-    toRender.add(closeBtn);
-    //toRender.add(title);
-
-    for(int i=0;i<ctrl.getAllUnits().length;i++) {
-      toRender.add(ctrl.getAllUnits()[i]);
-    }
-
-    toRender.add('add new');
-
-    Widget list = ListView.separated(
-      separatorBuilder: (context, index) {
-        Color c;
-        double h;
-
-        if(index == 0) {
-          c = Colors.white;
-          h = 0;
-        } else {
-          c = Colors.grey;
-          h = 1;
-        }
-
-        return Divider(
-          color: c,
-          height: h,
-        );
-      },
-
-      controller: listCtrl,
-      shrinkWrap: true,
-      itemCount: toRender.length,
-      itemBuilder: (context, index) {
-        final item = toRender[index];
-
-        if (index == 0) {
-          return item;
-        } else if (index > 0 && index < toRender.length - 1) {
-          return ListTile(
-            title: Text(
-              item.getName(),
-              textAlign: TextAlign.left,
-              style: TextStyle(fontSize: 42),
-            ),
-            onTap: () {
-              if (isFirst) {
-                setState(() {
-                  currentUnit1 = item;
-                  dropdownValue1 = item.getName();
-                });
-              } else {
-                setState(() {
-                  currentUnit2 = item;
-                  dropdownValue2 = item.getName();
-                });
-              }
-              Navigator.pop(context);
-            },
-          );
-        } else {
-          return ListTile(
-            title: Text(
-              item,
-              textAlign: TextAlign.left,
-              style: TextStyle(
-                fontSize: 42,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            trailing: Icon(
-              Icons.add_circle_outline,
-              size: 40,
-            ),
-            onTap: () => addItem(),
-          );
-        }
-      }
-    );
-
-    return Container(
-      alignment: Alignment.center,
-      child: FlatButton.icon(
-        icon: Icon(Icons.arrow_drop_down_circle, size: 30),
-        label: Text(
-        '${plural(value, isFirst)}',
-        style: TextStyle(
-          fontSize: 38,
-          fontWeight: FontWeight.bold,
-          fontStyle: FontStyle.italic,
-          ),
-          textAlign: TextAlign.center,
-        ),
-        onPressed: () {
-          scaffoldKey.currentState.showBottomSheet((context) => 
-          Container(
-            width: 500,
-            height: 800,
-            padding: EdgeInsets.all(2),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              border: Border.all(color: Colors.grey, width: 1, style: BorderStyle.solid),
-              borderRadius: BorderRadius.only(topLeft: Radius.circular(30), topRight: Radius.circular(30)),
-            ),
-            child: list,
-          ),
-        );
-      }, 
-      ),
-      );
-  }
+  
 
 
   Widget build(BuildContext context) {
     double mainHeight = MediaQuery.of(context).size.height;
+    print(mainHeight);
     double mainWidth = MediaQuery.of(context).size.width;
 
     return Container(
@@ -640,7 +505,24 @@ class _DisplayCalc extends State<DisplayCalc> {
             ),
             //list1
             Expanded(
-              child: renderList(true),
+              child: Container(
+                alignment: Alignment.center,
+                child: FlatButton.icon(
+                  icon: Icon(Icons.arrow_drop_down_circle, size: 30),
+                  label: Text(
+                  '$dropdownValue1',
+                  style: TextStyle(
+                    fontSize: 38,
+                    fontWeight: FontWeight.bold,
+                    fontStyle: FontStyle.italic,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                  onPressed: () {
+                    Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => UnitList()));
+                }, 
+                ),
+              ),
             ),
             Expanded(
               child: Text(
@@ -653,7 +535,24 @@ class _DisplayCalc extends State<DisplayCalc> {
             ),
             //list 2
             Expanded(
-              child: renderList(false),
+              child: Container(
+                alignment: Alignment.center,
+                child: FlatButton.icon(
+                  icon: Icon(Icons.arrow_drop_down_circle, size: 30),
+                  label: Text(
+                  '$dropdownValue2',
+                  style: TextStyle(
+                    fontSize: 38,
+                    fontWeight: FontWeight.bold,
+                    fontStyle: FontStyle.italic,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                  onPressed: () {
+                    Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => UnitList2()));
+                }, 
+                ),
+              ),
             ),
         ],
       ),
