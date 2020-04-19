@@ -29,11 +29,20 @@ void main() {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Does is fit?',
-      theme: ThemeData(fontFamily: 'Product Sans'),
-      home: HomePage(),
-      //theme: ThemeData(fontFamily: ),
+    return GestureDetector(
+      onTap: () {
+        FocusScopeNode currentFocus = FocusScope.of(context);
+
+        if(!currentFocus.hasPrimaryFocus) {
+          currentFocus.unfocus();
+        }
+      },
+      child: MaterialApp(
+        title: 'Does is fit?',
+        theme: ThemeData(fontFamily: 'Product Sans'),
+        home: HomePage(),
+        //theme: ThemeData(fontFamily: ),
+      ),
     );
   }
 

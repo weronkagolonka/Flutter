@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import '../models/Unit.dart';
 //import '../models/Dependencies.dart';
 import 'package:does_it_fit/main.dart';
+import 'AddItem.dart';
 
 class UnitList extends StatefulWidget {
 
@@ -15,6 +16,7 @@ class _UnitList extends State<UnitList> {
   //try to pass to construcotr the stuff i need
 
   Widget build(BuildContext context) {
+    double mainHeight = MediaQuery.of(context).size.height;
         return Scaffold(
           appBar: AppBar(
             backgroundColor: Colors.white,
@@ -35,14 +37,16 @@ class _UnitList extends State<UnitList> {
                 onPressed: () => Navigator.pop(context)),
             ],
           ),
-      body: renderList(),
+      body: renderList(mainHeight),
       bottomNavigationBar: BottomAppBar(
         elevation: 0,
         notchMargin: 8,
         child: Container(
           padding: EdgeInsets.all(10),
           child: FlatButton(
-            onPressed: () {}, 
+            onPressed: () {
+              Navigator.push(context, MaterialPageRoute(builder: (context) => AddItem()));
+              }, 
             child: Text('add new', style: TextStyle(color: Colors.white, fontSize: 42, fontWeight: FontWeight.bold),),
             color: Colors.black,
             shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(50))),
@@ -54,7 +58,7 @@ class _UnitList extends State<UnitList> {
   }
 
 
-  Widget renderList() {
+  Widget renderList(double mainHeight) {
     String value;
     Unit curr;
     List toRender = new List();
@@ -80,11 +84,11 @@ class _UnitList extends State<UnitList> {
         final item = toRender[index];
 
         return ListTile(
-          contentPadding: EdgeInsets.all(15),
+          contentPadding: EdgeInsets.all(mainHeight*0.02),
             title: Text(
               item.getName(),
               textAlign: TextAlign.left,
-              style: TextStyle(fontSize: 40),
+              style: TextStyle(fontSize: mainHeight*0.05),
             ),
             onTap: () {
               setState(() {
@@ -137,7 +141,9 @@ class UnitList2 extends StatefulWidget {
 }
 
 class _UnitList2 extends State<UnitList2> {
+
   Widget build(BuildContext context) {
+    double mainHeight = MediaQuery.of(context).size.height;
         return Scaffold(
           appBar: AppBar(
             backgroundColor: Colors.white,
@@ -148,6 +154,7 @@ class _UnitList2 extends State<UnitList2> {
               mainAxisAlignment: MainAxisAlignment.start,
               children: <Widget>[
                 FlatButton(
+                  padding: EdgeInsets.only(left: 0, right: 10),
                   onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => UnitList())), 
                   child: Text(
                     '${dropdownValue1}s',
@@ -175,16 +182,33 @@ class _UnitList2 extends State<UnitList2> {
             automaticallyImplyLeading: false,
             actions: <Widget>[
               IconButton(
+                padding: EdgeInsets.only(right: 25),
                 icon: Icon(Icons.clear, size: 42, color: Colors.grey), 
                 onPressed: () => Navigator.pop(context)),
             ],
       ),
-      body: renderList(),
+      body: renderList(mainHeight),
+      bottomNavigationBar: BottomAppBar(
+        elevation: 0,
+        notchMargin: 8,
+        child: Container(
+          padding: EdgeInsets.all(10),
+          child: FlatButton(
+            onPressed: () {
+              Navigator.push(context, MaterialPageRoute(builder: (context) => AddItem()));
+            }, 
+            child: Text('add new', style: TextStyle(color: Colors.white, fontSize: 42, fontWeight: FontWeight.bold),),
+            color: Colors.black,
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(50))),
+            padding: EdgeInsets.all(10),
+            ),
+        ),
+      ),
     );
   }
 
 
-  Widget renderList() {
+  Widget renderList(double mainHeight) {
     String value;
     Unit curr;
     List toRender = new List();
@@ -210,11 +234,11 @@ class _UnitList2 extends State<UnitList2> {
         final item = toRender[index];
 
         return ListTile(
-          contentPadding: EdgeInsets.all(15),
+          contentPadding: EdgeInsets.all(mainHeight*0.02),
           title: Text(
             item.getName(),
             textAlign: TextAlign.left,
-            style: TextStyle(fontSize: 40),
+            style: TextStyle(fontSize: mainHeight*0.05),
           ),
           onTap: () {
             setState(() {
