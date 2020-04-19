@@ -177,17 +177,18 @@ class _DisplayCalc extends State<DisplayCalc> {
                 alignment: Alignment.center,
                 child: Row(
                   mainAxisSize: MainAxisSize.max,
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: <Widget>[
                     Expanded(
                       //long tap - number changes faster
                       child: Container(
-                        color: Colors.yellow,
+                        //height: 70,
+                        //alignment: Alignment(0,0),
+                        //color: Colors.yellow,
                         child: IconButton(
-                          alignment: Alignment.centerLeft,
-                          padding: EdgeInsets.only(left: 8),
-                          icon: Icon(Icons.remove, size: mainHeight*0.08,),
+                          padding: EdgeInsets.all(0),
+                          icon: Icon(Icons.remove, size: mainHeight*0.07,),
                           onPressed: () {
                             setState(() {
                               if(howmany1 > 0) {
@@ -204,7 +205,8 @@ class _DisplayCalc extends State<DisplayCalc> {
                     Expanded(
                       flex: 3,
                       child: Container(
-                        color: Colors.blue,
+                        //color: Colors.blue,
+                        alignment: Alignment.center,
                         //margin: EdgeInsets.symmetric(vertical: mainHeight*0.01),
                         child: TextField(
                           focusNode: myFocus,
@@ -219,7 +221,7 @@ class _DisplayCalc extends State<DisplayCalc> {
                             hintText: howmany1.toString(),
                             hintStyle: TextStyle(fontSize: mainHeight*0.05),
                             border: InputBorder.none,
-                            //contentPadding: EdgeInsets.symmetric(vertical: mainHeight*0.005),
+                            //contentPadding: EdgeInsets.all(0),
                           ),
                           controller: myController,
                           onChanged: (String input) {
@@ -237,10 +239,10 @@ class _DisplayCalc extends State<DisplayCalc> {
                     ),
                     Expanded(
                       child: Container(
-                        color: Colors.yellow,
+                        //color: Colors.yellow,
+                        //alignment: Alignment.center,
                         child: IconButton(
-                          alignment: Alignment.centerRight,
-                          padding: EdgeInsets.only(right: 8),
+                          padding: EdgeInsets.all(0),
                           icon: Icon(Icons.add, size: mainHeight*0.07), 
                           onPressed: () {
                             setState(() {
