@@ -13,10 +13,10 @@ void main() {
   //(name, volume, min:overwrite,max:overwrite)
   //cm^3
   ctrl.createUnit('beer', 500);
-  ctrl.createUnit('30 l School bag', 30000);
+  ctrl.createUnit('30l bag', 30000);
   ctrl.createUnit('Pidgeon\'s feather', 12.75);
   ctrl.createUnit('Fridge', 538882.92);
-  ctrl.createUnit('Saturn V Rocket', 8856610210);
+  ctrl.createUnit('Saturn V', 8856610210);
   ctrl.createUnit('Fiat Multipla', 7908864);
   ctrl.createUnit('Potato chip', 2.12);
   ctrl.createUnit('Rice grain', 0.055);
