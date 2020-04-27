@@ -5,8 +5,9 @@ import 'package:flutter/material.dart';
 
 Dependencies ctrl = new Dependencies();
 
+//ctm
+
 void main() {
-  //testuje zmiany
   //10 basic units
   //values from 0.001 to 1000
   //znowu
