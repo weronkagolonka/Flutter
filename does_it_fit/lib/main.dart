@@ -12,14 +12,18 @@ void main() {
   //znowu
   //(name, volume, min:overwrite,max:overwrite)
   //cm^3
-  ctrl.createUnit('beer', 500);
-  ctrl.createUnit('30l bag', 30000);
-  ctrl.createUnit('Pidgeon\'s feather', 12.75);
-  ctrl.createUnit('Fridge', 538882.92);
-  ctrl.createUnit('Saturn V', 8856610210);
-  ctrl.createUnit('Fiat Multipla', 7908864);
-  ctrl.createUnit('Potato chip', 2.12);
-  ctrl.createUnit('Rice grain', 0.055);
+  //name, height, width(depth), length
+  
+  ctrl.createUnit('beer', 16.8, 6.33, 6.33);
+  ctrl.createUnit('30l bag', 44, 21, 30);
+  ctrl.createUnit('Pidgeon\'s feather', 16, 0.5, 2);
+  ctrl.createUnit('Fridge', 100, 65, 60);
+  ctrl.createUnit('Saturn V', 10966.704, 1005.84, 1005.84);
+  ctrl.createUnit('Fiat Multipla', 167, 187.1, 399.4);
+  ctrl.createUnit('Potato chip', 4, 0.2, 3);
+  ctrl.createUnit('Rice grain', 0.7, 0.3, 0.3);
+  ctrl.createUnit('Big box', 24, 40, 56);
+  ctrl.createUnit('Small box', 6, 4, 7);
   //ctrl.createUnit('Tent', 1.0);
   //ctrl.createUnit('Beer', 1.0);
 

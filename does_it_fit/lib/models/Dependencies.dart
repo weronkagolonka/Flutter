@@ -8,13 +8,13 @@ class Dependencies {
     return allUnits;
   }
 
-  void createUnit(String name, double volume, {int min, int max}) {
-    Unit newUnit = new Unit(name, volume);
+  void createUnit(String name, double height, double width, double length) {
+    Unit newUnit = new Unit(name, height, width, length);
     allUnits.add(newUnit);
   }
 
   void removeUnit(int index) {
-    if (index < allUnits.length) {
+    if (index < allUnits.length && allUnits.length > 0) {
       allUnits.removeAt(index);
     }
   }
@@ -22,7 +22,18 @@ class Dependencies {
   //return how many of unit1 fit in unit2
   double calculate(int indexUnit1, int indexUnit2, int howmany) {
 
-    double balance = (allUnits.elementAt(indexUnit2).getValue() / (allUnits.elementAt(indexUnit1).getValue() * howmany));
+    //double balance = (allUnits.elementAt(indexUnit2).getValue() / (allUnits.elementAt(indexUnit1).getValue() * howmany));
+    double balanceHeight = (allUnits.elementAt(indexUnit2).getHeight() / allUnits.elementAt(indexUnit1).getHeight()).floorToDouble();
+    double balanceWidth = (allUnits.elementAt(indexUnit2).getWidth() / allUnits.elementAt(indexUnit1).getWidth()).floorToDouble();
+    double balanceLength = (allUnits.elementAt(indexUnit2).getLength() / allUnits.elementAt(indexUnit1).getLength()).floorToDouble();
+    print('H: $balanceHeight, W: $balanceWidth, L: $balanceLength');
+
+    //amount of stuff 1 we can fit in stuff 2
+    double max = balanceHeight * balanceLength * balanceWidth;
+    print('max: $max');
+
+    double balance = max / howmany;
+    print(balance);
 
     return balance;
   } 

@@ -1,29 +1,28 @@
 class Unit {
 
   String name;
-  int min, max;
-  double volume;
+  double height, width, length;
 
-  Unit(String name, double volume, {int min = 1, int max = 100}) {
+  Unit(String name, double height, double width, double length) {
     this.name = name;
-    this.min = min;
-    this.max = max;
-    this.volume = volume;
+    this.height = height;
+    this.width = width;
+    this.length = length;
   }
 
   String getName() {
     return this.name;
   }
 
-  int getMin() {
-    return this.min;
+  double getHeight() {
+    return this.height;
   }
 
-  int getMax() {
-    return this.max;
+  double getWidth() {
+    return this.width;
   }
 
-  double getValue() {
-    return this.volume;
+  double getLength() {
+    return this.length;
   }
 }

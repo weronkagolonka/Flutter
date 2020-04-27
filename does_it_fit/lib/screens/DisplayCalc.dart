@@ -13,11 +13,9 @@ import '../main.dart';
 //String toDisplay = display();
 Unit currentUnit1 = ctrl.getAllUnits()[0];
 Unit currentUnit2 = ctrl.getAllUnits()[0];
-double _value = currentUnit1.getMin().roundToDouble();
+double _value = 0;
 String dropdownValue1 = currentUnit1.getName();
 String dropdownValue2 = currentUnit2.getName();
-double min = currentUnit1.getMin().roundToDouble();
-double max = currentUnit1.getMax().roundToDouble();
 int howmany1 = _value.round();
 
 bool display() {

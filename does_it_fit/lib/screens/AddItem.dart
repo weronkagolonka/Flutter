@@ -299,8 +299,7 @@ class _AddItem extends State<AddItem> {
 
   filledFormBtn(double length, double height, double depth, String name) {
     if (_formKey.currentState.validate()) {
-      double volume = length * height * depth;
-      ctrl.createUnit(name, volume);
+      ctrl.createUnit(name, height, depth, length);
       Navigator.pushReplacement(context, MaterialPageRoute(builder: (BuildContext context) => SplashScreen()));
       //_controller.close();
       addController.clear();
