@@ -68,34 +68,44 @@ class _AddItem extends State<AddItem> {
         backgroundColor: Colors.white,
         elevation: 0,
         centerTitle: false,
-        title: Text(
-              'I wanna add...',
-              style: TextStyle(
-                fontSize: mainHeight*0.05,
-                fontWeight: FontWeight.bold,
-                color: Colors.black
-              ),
+        title: Container(
+          alignment: Alignment.centerLeft,
+          child: Text(
+            'I wanna add...',
+            style: TextStyle(
+              fontSize: mainHeight*0.05,
+              fontWeight: FontWeight.bold,
+              color: Colors.black
             ),
+          ),
+        ),
         automaticallyImplyLeading: false,
         actions: <Widget>[
-          IconButton(
+          Container(
+            margin: EdgeInsets.only(right: mainHeight*0.02),
+            child: IconButton(
             icon: Icon(Icons.clear, color: Colors.grey, size: mainHeight*0.05), 
             onPressed: () => Navigator.pop(context)),
+          ),
         ],
       ),
-      body: addItem(mainHeight, mainWidth),
+      body: Container(
+        color: Colors.white,
+        child: addItem(mainHeight, mainWidth),
+      ),
       bottomNavigationBar: BottomAppBar(
         elevation: 0,
-        color: Colors.white,
+        notchMargin: 8,
         child: Container(
-          padding: EdgeInsets.all(10),
+          margin: EdgeInsets.symmetric(horizontal: mainHeight*0.02),
           child: FlatButton(
             onPressed: text1 ? () => filledFormBtn(length, height, depth, name) : null, 
             color: Colors.black,
             disabledColor: Colors.grey,
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(Radius.circular(200)),
+              borderRadius: BorderRadius.all(Radius.circular(50)),
             ),
+            padding: EdgeInsets.all(mainHeight*0.015),
             child: Text(
               'add',
               style: TextStyle(
@@ -128,27 +138,27 @@ class _AddItem extends State<AddItem> {
           decoration: InputDecoration(
             errorText: null,
             errorStyle: TextStyle(height: 0),
-            contentPadding: EdgeInsets.all(mainHeight*0.025),
+            contentPadding: EdgeInsets.all(mainHeight*0.02),
             hintText: hintText,
             errorBorder: OutlineInputBorder(
               borderRadius: BorderRadius.all(Radius.circular(200)),
               borderSide: BorderSide(color: Colors.red[500], width: 5, style: BorderStyle.solid),
-              gapPadding: 15,
+              gapPadding: mainHeight*0.015,
             ),
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.all(Radius.circular(200)),
               borderSide: BorderSide(color: Colors.grey[300], width: 1, style: BorderStyle.solid),
-              gapPadding: 15,
+              gapPadding: mainHeight*0.015,
             ),
             border: OutlineInputBorder(
               borderRadius: BorderRadius.all(Radius.circular(200)),
               borderSide: BorderSide(color: Colors.grey[300], width: 1, style: BorderStyle.solid),
-              gapPadding: 15,
+              gapPadding: mainHeight*0.015,
             ),
             focusedErrorBorder: OutlineInputBorder(
               borderRadius: BorderRadius.all(Radius.circular(200)),
               borderSide: BorderSide(color: Colors.red[500], width: 5, style: BorderStyle.solid),
-              gapPadding: 15,
+              gapPadding: mainHeight*0.015,
             ),
           ),
           onChanged: (String input) {
@@ -181,27 +191,27 @@ class _AddItem extends State<AddItem> {
             //helperText: ' ',
             errorText: null,
             errorStyle: TextStyle(height: 0),
-            contentPadding: EdgeInsets.all(mainHeight*0.025),
+            contentPadding: EdgeInsets.all(mainHeight*0.02),
             hintText: hintText,
             errorBorder: OutlineInputBorder(
               borderRadius: BorderRadius.all(Radius.circular(200)),
               borderSide: BorderSide(color: Colors.red[500], width: 5, style: BorderStyle.solid),
-              gapPadding: 15,
+              gapPadding: mainHeight*0.015,
             ),
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.all(Radius.circular(200)),
               borderSide: BorderSide(color: Colors.grey[300], width: 1, style: BorderStyle.solid),
-              gapPadding: 15,
+              gapPadding: mainHeight*0.015,
             ),
             border: OutlineInputBorder(
               borderRadius: BorderRadius.all(Radius.circular(200)),
-              borderSide: BorderSide(color: Colors.grey[300], width: 1, style: BorderStyle.solid),
-              gapPadding: 15,
+              borderSide: BorderSide(color: Colors.grey[100], width: 1, style: BorderStyle.solid),
+              gapPadding: mainHeight*0.015,
             ),
             focusedErrorBorder: OutlineInputBorder(
               borderRadius: BorderRadius.all(Radius.circular(200)),
               borderSide: BorderSide(color: Colors.red[500], width: 5, style: BorderStyle.solid),
-              gapPadding: 15,
+              gapPadding: mainHeight*0.015,
             ),
           ),
           onChanged: (String input) {
@@ -225,8 +235,9 @@ class _AddItem extends State<AddItem> {
   }
 
   Widget setUnit(double mainHeight) {
-    return Padding(
-      padding: EdgeInsets.only(left: 20),
+    return Container(
+      //padding: EdgeInsets.only(left: mainHeight*0.02),
+      alignment: Alignment.centerRight,
       child: Text(
           'cm,',
           style: TextStyle(
@@ -241,7 +252,7 @@ class _AddItem extends State<AddItem> {
       controller: ScrollController(),
       children: <Widget>[
         Container(
-          padding: EdgeInsets.symmetric(horizontal: mainHeight*0.02),
+          margin: EdgeInsets.symmetric(horizontal: mainHeight*0.02),
           //constraints: BoxConstraints.tightForFinite(),
           color: Colors.white,
           child: Form(
@@ -258,8 +269,9 @@ class _AddItem extends State<AddItem> {
             //autovalidate: true,
             child: Container(
               width: mainWidth,
-              height: mainHeight*0.7,
-              color: Colors.red,
+              height: mainHeight*0.6,
+              margin: EdgeInsets.only(top: mainHeight*0.02),
+              //color: Colors.red,
               //constraints: BoxConstraints(maxHeight: mainHeight, maxWidth: mainWidth),
               child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -268,7 +280,7 @@ class _AddItem extends State<AddItem> {
                   children: <Widget>[
                     Expanded(
                       child: Container(
-                        color: Colors.yellow,
+                        //color: Colors.yellow,
                         child: setForm('item name', false, 0, hasChanged1, addController, myFocus1, mainHeight),
                       ),
                     ),
@@ -276,14 +288,15 @@ class _AddItem extends State<AddItem> {
                       flex: 1,
                       child: Container(
                         alignment: Alignment.centerLeft,
-                        color: Colors.amber,
+                        //color: Colors.amber,
                         child: setSubtitle('with a length of...', mainHeight),
                       ),
                     ),
                     Expanded(
                       child: Container(
-                        color: Colors.yellow,
+                        //color: Colors.yellow,
                         child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: <Widget>[
                             Expanded(
                               flex: 4,
@@ -299,14 +312,14 @@ class _AddItem extends State<AddItem> {
                     Expanded(
                       flex: 1,
                       child: Container(
-                        color: Colors.amber,
+                        //color: Colors.amber,
                         alignment: Alignment.centerLeft,
                         child: setSubtitle('height of...', mainHeight),
                       ),
                     ),  
                     Expanded(
                       child: Container(
-                        color: Colors.yellow,
+                        //color: Colors.yellow,
                         child: Row(
                           children: <Widget>[
                             Expanded(
@@ -323,14 +336,14 @@ class _AddItem extends State<AddItem> {
                     Expanded(
                       flex: 1,
                       child: Container(
-                        color: Colors.amber,
+                        //color: Colors.amber,
                         alignment: Alignment.centerLeft,
                         child: setSubtitle('and depth of...', mainHeight),
                       ),
                     ),
                     Expanded(
                       child: Container(
-                        color: Colors.yellow,
+                        //color: Colors.yellow,
                         child: Row(
                           children: <Widget>[
                             //to do: ALLOW DECIMALS

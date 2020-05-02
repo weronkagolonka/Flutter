@@ -1,4 +1,6 @@
 //import 'package:does_it_fit/models/Dependencies.dart';
+import 'dart:async';
+
 import 'package:does_it_fit/screens/DisplayCalc.dart';
 import 'package:flutter/material.dart';
 import '../models/Unit.dart';
@@ -34,20 +36,33 @@ class _UnitList extends State<UnitList> {
                 onPressed: () => Navigator.pop(context)),
             ],
           ),
-      body: renderList(mainHeight),
+      body: Container(
+        color: Colors.white,
+        child: renderList(mainHeight),
+      ),
       bottomNavigationBar: BottomAppBar(
         elevation: 0,
         notchMargin: 8,
         child: Container(
-          padding: EdgeInsets.all(10),
+          color: Colors.white,
+          margin: EdgeInsets.symmetric(horizontal: mainHeight*0.02),
           child: FlatButton(
             onPressed: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) => AddItem()));
-              }, 
-            child: Text('add new', style: TextStyle(color: Colors.white, fontSize: mainHeight*0.05, fontWeight: FontWeight.bold),),
+              //additem()
+              //Navigator.pop(context);
+              Navigator.of(context).push(newRoute(AddItem()));
+            }, 
+            child: Text(
+              'add new', 
+              style: TextStyle(
+                color: Colors.white, 
+                fontSize: mainHeight*0.05, 
+                fontWeight: FontWeight.bold
+              ),
+            ),
             color: Colors.black,
             shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(50))),
-            padding: EdgeInsets.all(10),
+            padding: EdgeInsets.all(mainHeight*0.015),
             ),
         ),
       ),
@@ -56,8 +71,8 @@ class _UnitList extends State<UnitList> {
 
 
   Widget renderList(double mainHeight) {
-    String value;
-    Unit curr;
+    //String value;
+    //Unit curr;
     List toRender = new List();
     ScrollController listCtrl = new ScrollController();
 
@@ -80,8 +95,10 @@ class _UnitList extends State<UnitList> {
       itemBuilder: (context, index) {
         final item = toRender[index];
 
-        return ListTile(
-          contentPadding: EdgeInsets.all(mainHeight*0.01),
+        return Container(
+          color: Colors.white,
+          child: ListTile(
+          contentPadding: EdgeInsets.symmetric(vertical: mainHeight*0.01, horizontal: mainHeight*0.027),
             title: Text(
               item.getName(),
               textAlign: TextAlign.left,
@@ -94,42 +111,10 @@ class _UnitList extends State<UnitList> {
                   Navigator.pop(context);
                 });
             },
-          );
-      }
-    );
-
-    /*
-    return Container(
-      alignment: Alignment.center,
-      child: FlatButton.icon(
-        icon: Icon(Icons.arrow_drop_down_circle, size: 30),
-        label: Text(
-        '${plural(value, isFirst)}',
-        style: TextStyle(
-          fontSize: 38,
-          fontWeight: FontWeight.bold,
-          fontStyle: FontStyle.italic,
-          ),
-          textAlign: TextAlign.center,
-        ),
-        onPressed: () {
-          scaffoldKey.currentState.showBottomSheet((context) => 
-          Container(
-            width: 500,
-            height: 800,
-            padding: EdgeInsets.all(2),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              border: Border.all(color: Colors.grey, width: 1, style: BorderStyle.solid),
-              borderRadius: BorderRadius.only(topLeft: Radius.circular(30), topRight: Radius.circular(30)),
-            ),
-            child: list,
           ),
         );
-      }, 
-      ),
-      );
-      */
+      }
+    );
   }
 }
 
@@ -152,7 +137,8 @@ class _UnitList2 extends State<UnitList2> {
               children: <Widget>[
                 FlatButton(
                   padding: EdgeInsets.only(left: 0, right: 10),
-                  onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => UnitList())), 
+                  //UnitList
+                  onPressed: () => Navigator.of(context).push(newRoute(UnitList())), 
                   child: Text(
                     '${dropdownValue1}s',
                     style: TextStyle(
@@ -189,15 +175,16 @@ class _UnitList2 extends State<UnitList2> {
         elevation: 0,
         notchMargin: 8,
         child: Container(
-          padding: EdgeInsets.all(10),
+          margin: EdgeInsets.symmetric(horizontal: mainHeight*0.02),
           child: FlatButton(
             onPressed: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) => AddItem()));
+              //AddItem
+              Navigator.of(context).push(newRoute(AddItem()));
             }, 
             child: Text('add new', style: TextStyle(color: Colors.white, fontSize: mainHeight*0.05, fontWeight: FontWeight.bold),),
             color: Colors.black,
             shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(50))),
-            padding: EdgeInsets.all(10),
+            padding: EdgeInsets.all(mainHeight*0.015),
             ),
         ),
       ),
@@ -206,8 +193,8 @@ class _UnitList2 extends State<UnitList2> {
 
 
   Widget renderList(double mainHeight) {
-    String value;
-    Unit curr;
+    //String value;
+    //Unit curr;
     List toRender = new List();
     ScrollController listCtrl = new ScrollController();
 
@@ -230,8 +217,10 @@ class _UnitList2 extends State<UnitList2> {
       itemBuilder: (context, index) {
         final item = toRender[index];
 
-        return ListTile(
-          contentPadding: EdgeInsets.all(mainHeight*0.01),
+        return Container(
+          color: Colors.white,
+          child: ListTile(
+          contentPadding: EdgeInsets.symmetric(vertical: mainHeight*0.01, horizontal: mainHeight*0.027),
           title: Text(
             item.getName(),
             textAlign: TextAlign.left,
@@ -243,8 +232,9 @@ class _UnitList2 extends State<UnitList2> {
                 dropdownValue2 = item.getName();
                 Navigator.pop(context);
               });
-          },
-          );
+            },
+          ),
+        );
       }
     );
   }

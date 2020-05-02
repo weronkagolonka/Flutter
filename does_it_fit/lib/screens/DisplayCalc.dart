@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:does_it_fit/screens/Splashscreen.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -118,6 +120,8 @@ class _DisplayCalc extends State<DisplayCalc> {
 
   TextEditingController myController;
   FocusNode myFocus = FocusNode();
+  bool btnPressed = false;
+  bool loopActive = false;
 
 
   @override
@@ -130,6 +134,36 @@ class _DisplayCalc extends State<DisplayCalc> {
     super.initState();
     myController = TextEditingController();
     myController.text = howmany1.toString();
+  }
+
+  //parameter - inc(increase), dec(decrease)
+  void increaseCounter(String what) async {
+
+    if(loopActive) return;
+    
+    loopActive = true;
+
+    while(btnPressed) {
+      if(what == 'inc') {
+        setState(() {
+          howmany1 ++;
+          myController.text = howmany1.toString();
+        });
+      } else {
+        setState(() {
+          if(howmany1 > 0) {
+            howmany1--;
+          } else {
+            howmany1 = 0;
+          }
+          myController.text = howmany1.toString();
+        });
+      }
+      await Future.delayed(Duration(milliseconds: 200));
+    }
+
+    loopActive = false;    
+
   }
 
   Widget build(BuildContext context) {
@@ -180,26 +214,20 @@ class _DisplayCalc extends State<DisplayCalc> {
                   children: <Widget>[
                     Expanded(
                       //long tap - number changes faster
-                      child: Container(
-                        //height: 70,
-                        //alignment: Alignment(0,0),
-                        //color: Colors.yellow,
-                        child: IconButton(
-                          padding: EdgeInsets.all(0),
-                          icon: Icon(Icons.remove, size: mainHeight*0.07,),
-                          onPressed: () {
-                            setState(() {
-                              if(howmany1 > 0) {
-                              howmany1 -= 1;
-                            } else {
-                              howmany1 = 0;
-                            }
-                            myController.text = howmany1.toString();
-                            });
-                          }
+                      child: Listener(
+                        onPointerDown: (details) {
+                          btnPressed = true;
+                          increaseCounter('dec');
+                        },
+                        onPointerUp: (details) {
+                          btnPressed = false;
+                        },
+                        child: Icon(
+                          Icons.remove,
+                          size: mainHeight*0.07,
                         ),
                       ),
-                      ),
+                    ),
                     Expanded(
                       flex: 3,
                       child: Container(
@@ -236,20 +264,20 @@ class _DisplayCalc extends State<DisplayCalc> {
                       ),
                     ),
                     Expanded(
-                      child: Container(
+                      child: Listener(
+                        onPointerDown: (details) {
+                          btnPressed = true;
+                          increaseCounter('inc');
+                        },
+                        onPointerUp: (details) {
+                          btnPressed = false;
+                        },
+                        child: Container(
                         //color: Colors.yellow,
                         //alignment: Alignment.center,
-                        child: IconButton(
-                          padding: EdgeInsets.all(0),
-                          icon: Icon(Icons.add, size: mainHeight*0.07), 
-                          onPressed: () {
-                            setState(() {
-                              howmany1 += 1;
-                              myController.text = howmany1.toString();
-                            });
-                          }
+                        child: Icon(Icons.add, size: mainHeight*0.07),
                         ),
-                        ),
+                      ),
                     ),
                   ],
                 ),
@@ -273,7 +301,7 @@ class _DisplayCalc extends State<DisplayCalc> {
                       textAlign: TextAlign.center,
                     ),
                     onPressed: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => UnitList()));
+                      Navigator.of(context).push(newRoute(UnitList()));
                   }, 
                   ),
                 ),
@@ -310,7 +338,7 @@ class _DisplayCalc extends State<DisplayCalc> {
                       textAlign: TextAlign.center,
                     ),
                     onPressed: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => UnitList2()));
+                      Navigator.of(context).push(newRoute(UnitList2()));
                   }, 
                   ),
                 ),
@@ -321,96 +349,22 @@ class _DisplayCalc extends State<DisplayCalc> {
     ],
     );
   } 
+}
 
-  /*
-  Widget build(BuildContext context) {
-    return Column(children: <Widget>[
-      DropdownButton<String>(
-      hint: Text('lolo'),
-      value: dropdownValue1,
-      icon: Icon(Icons.arrow_downward),
-      iconSize: 20,
-      underline: Container(
-        height: 0,
-      ),
-      onChanged: (String newValue) {
-        setState(() {
-          dropdownValue1 = newValue;
-          
-          for (Unit u in ctrl.getAllUnits()) {
-            if (u.getName() == dropdownValue1) {
-              currentUnit1 = u;
-            }
-          }
-          toDisplay = display();
-        });
-      },
-      items: fillString().map<DropdownMenuItem<String>>((String value) {
-        return DropdownMenuItem<String>(
-          value: value,
-          child: Text(value),
-          );
-      }).toList(), 
-      ),
-      DropdownButton<String>(
-        hint: Text('lolo'),
-        value: dropdownValue2,
-        icon: Icon(Icons.arrow_downward),
-        iconSize: 20,
-        underline: Container(
-          height: 0,
-        ),
-        onChanged: (String newValue) {
-          setState(() {
-            dropdownValue2 = newValue;
-            for (Unit u in ctrl.getAllUnits()) {
-              if (u.getName() == dropdownValue2) {
-                currentUnit2 = u;
-              }
-            }
-            toDisplay = display();
-          });
-        },
-        items: fillString().map<DropdownMenuItem<String>>((String value) {
-          return DropdownMenuItem<String>(
-            value: value,
-            child: Text(value),
-            );
-        }).toList(), 
-      ),
-      SliderTheme(
-      data: SliderTheme.of(context).copyWith(
-        activeTrackColor: Colors.red[700],
-        inactiveTrackColor: Colors.red[100],
-        trackShape: RectangularSliderTrackShape(), //custom track: | | | | | |
-        trackHeight: 5.0,
-        thumbColor: Colors.redAccent,
-        thumbShape: RoundSliderThumbShape(enabledThumbRadius: 12.0), //custom thumb: doesn't move
-        overlayColor: Colors.blue.withAlpha(32),
-        overlayShape: RoundSliderOverlayShape(overlayRadius: 28.0), 
-      ), 
-      child: Slider(
-        min: min,
-        max: max,
-        value: _value, 
-        divisions: 100,
-        onChanged: (double newValue) {
-          setState(() {
-            _value = newValue;
-            toDisplay = display();
-            if (_value == currentUnit1.getMax().roundToDouble()) {
-              max = max + 100;
-            } else if (_value < currentUnit1.getMax().roundToDouble()) {
-              max = currentUnit1.getMax().roundToDouble();
-            }
-          });
-        }
-      ),
-    ),
-    //Text('${display()}'),
-    //Text(getCalc(currentUnit1, currentUnit2, _value.round()).toString()),
-    Text('$toDisplay')
-    ],);
-  }
-  */
+Route newRoute(Widget where) {
+  return PageRouteBuilder(
+    pageBuilder: (context, animation, secondaryAnimation) => where,
+    transitionsBuilder: (context, animation, secondaryAnimation, child) {
+      var begin = Offset(0.0, 1.0);
+      var end = Offset.zero;
+      var curve = Curves.ease;
+      var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+      var offsetAnimation = animation.drive(tween);
+
+      return SlideTransition(
+        position: offsetAnimation,
+        child: child,
+      );
+    }
+  );
 }

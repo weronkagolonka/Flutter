@@ -2,6 +2,7 @@ import 'package:does_it_fit/models/Dependencies.dart';
 import 'package:does_it_fit/screens/DisplayCalc.dart';
 import 'package:does_it_fit/screens/home.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 Dependencies ctrl = new Dependencies();
 
@@ -27,6 +28,9 @@ void main() {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+      systemNavigationBarIconBrightness: Brightness.dark,
+    ));
     return GestureDetector(
       onTap: () {
         FocusScopeNode currentFocus = FocusScope.of(context);
