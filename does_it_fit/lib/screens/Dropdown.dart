@@ -2,7 +2,6 @@
 import 'package:does_it_fit/screens/DisplayCalc.dart';
 import 'package:flutter/material.dart';
 import '../models/Unit.dart';
-//import '../models/Dependencies.dart';
 import 'package:does_it_fit/main.dart';
 import 'AddItem.dart';
 
@@ -12,8 +11,6 @@ class UnitList extends StatefulWidget {
 }
 
 class _UnitList extends State<UnitList> {
-
-  //try to pass to construcotr the stuff i need
 
   Widget build(BuildContext context) {
     double mainHeight = MediaQuery.of(context).size.height;
@@ -25,7 +22,7 @@ class _UnitList extends State<UnitList> {
             title: Text(
               'I wanna fit...',
               style: TextStyle(
-                fontSize: 42,
+                fontSize: mainHeight*0.05,
                 fontWeight: FontWeight.bold,
                 color: Colors.black
               ),
@@ -33,7 +30,7 @@ class _UnitList extends State<UnitList> {
             automaticallyImplyLeading: false,
             actions: <Widget>[
               IconButton(
-                icon: Icon(Icons.clear, color: Colors.grey, size: 42), 
+                icon: Icon(Icons.clear, color: Colors.grey, size: mainHeight*0.05), 
                 onPressed: () => Navigator.pop(context)),
             ],
           ),
@@ -47,7 +44,7 @@ class _UnitList extends State<UnitList> {
             onPressed: () {
               Navigator.push(context, MaterialPageRoute(builder: (context) => AddItem()));
               }, 
-            child: Text('add new', style: TextStyle(color: Colors.white, fontSize: 42, fontWeight: FontWeight.bold),),
+            child: Text('add new', style: TextStyle(color: Colors.white, fontSize: mainHeight*0.05, fontWeight: FontWeight.bold),),
             color: Colors.black,
             shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(50))),
             padding: EdgeInsets.all(10),
@@ -84,11 +81,11 @@ class _UnitList extends State<UnitList> {
         final item = toRender[index];
 
         return ListTile(
-          contentPadding: EdgeInsets.all(mainHeight*0.02),
+          contentPadding: EdgeInsets.all(mainHeight*0.01),
             title: Text(
               item.getName(),
               textAlign: TextAlign.left,
-              style: TextStyle(fontSize: mainHeight*0.05),
+              style: TextStyle(fontSize: mainHeight*0.04),
             ),
             onTap: () {
               setState(() {
@@ -163,7 +160,7 @@ class _UnitList2 extends State<UnitList2> {
                       decorationThickness: 2,
                       decorationStyle: TextDecorationStyle.solid,
                       color: Colors.black,
-                      fontSize: 42,
+                      fontSize: mainHeight*0.05,
                       fontWeight: FontWeight.bold,
                       fontStyle: FontStyle.italic,
                     ),
@@ -173,7 +170,7 @@ class _UnitList2 extends State<UnitList2> {
                     'in a...',
                     style: TextStyle(
                       color: Colors.black,
-                      fontSize: 42,
+                      fontSize: mainHeight*0.05,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
@@ -183,7 +180,7 @@ class _UnitList2 extends State<UnitList2> {
             actions: <Widget>[
               IconButton(
                 padding: EdgeInsets.only(right: 25),
-                icon: Icon(Icons.clear, size: 42, color: Colors.grey), 
+                icon: Icon(Icons.clear, size: mainHeight*0.05, color: Colors.grey), 
                 onPressed: () => Navigator.pop(context)),
             ],
       ),
@@ -197,7 +194,7 @@ class _UnitList2 extends State<UnitList2> {
             onPressed: () {
               Navigator.push(context, MaterialPageRoute(builder: (context) => AddItem()));
             }, 
-            child: Text('add new', style: TextStyle(color: Colors.white, fontSize: 42, fontWeight: FontWeight.bold),),
+            child: Text('add new', style: TextStyle(color: Colors.white, fontSize: mainHeight*0.05, fontWeight: FontWeight.bold),),
             color: Colors.black,
             shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(50))),
             padding: EdgeInsets.all(10),
@@ -234,11 +231,11 @@ class _UnitList2 extends State<UnitList2> {
         final item = toRender[index];
 
         return ListTile(
-          contentPadding: EdgeInsets.all(mainHeight*0.02),
+          contentPadding: EdgeInsets.all(mainHeight*0.01),
           title: Text(
             item.getName(),
             textAlign: TextAlign.left,
-            style: TextStyle(fontSize: mainHeight*0.05),
+            style: TextStyle(fontSize: mainHeight*0.04),
           ),
           onTap: () {
             setState(() {

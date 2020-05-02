@@ -5,14 +5,7 @@ import 'package:flutter/material.dart';
 
 Dependencies ctrl = new Dependencies();
 
-//ctm
-
 void main() {
-  //10 basic units
-  //values from 0.001 to 1000
-  //znowu
-  //(name, volume, min:overwrite,max:overwrite)
-  //cm^3
   //name, height, width(depth), length
   
   ctrl.createUnit('beer', 16.8, 6.33, 6.33);

@@ -61,6 +61,7 @@ class _AddItem extends State<AddItem> {
 
   Widget build(BuildContext context) {
     double mainHeight = MediaQuery.of(context).size.height;
+    double mainWidth = MediaQuery.of(context).size.width;
     
     return Scaffold(
       appBar: AppBar(
@@ -70,7 +71,7 @@ class _AddItem extends State<AddItem> {
         title: Text(
               'I wanna add...',
               style: TextStyle(
-                fontSize: 42,
+                fontSize: mainHeight*0.05,
                 fontWeight: FontWeight.bold,
                 color: Colors.black
               ),
@@ -78,11 +79,11 @@ class _AddItem extends State<AddItem> {
         automaticallyImplyLeading: false,
         actions: <Widget>[
           IconButton(
-            icon: Icon(Icons.clear, color: Colors.grey, size: 42), 
+            icon: Icon(Icons.clear, color: Colors.grey, size: mainHeight*0.05), 
             onPressed: () => Navigator.pop(context)),
         ],
       ),
-      body: addItem(mainHeight),
+      body: addItem(mainHeight, mainWidth),
       bottomNavigationBar: BottomAppBar(
         elevation: 0,
         color: Colors.white,
@@ -98,7 +99,7 @@ class _AddItem extends State<AddItem> {
             child: Text(
               'add',
               style: TextStyle(
-                fontSize: 42,
+                fontSize: mainHeight*0.05,
                 fontWeight: FontWeight.bold,
                 color: Colors.white,
               ),
@@ -118,7 +119,7 @@ class _AddItem extends State<AddItem> {
             else return null;
           },
           style: TextStyle(
-            fontSize: mainHeight*0.05,
+            fontSize: mainHeight*0.04,
           ),
           controller: controller,
           focusNode: focus,
@@ -127,7 +128,7 @@ class _AddItem extends State<AddItem> {
           decoration: InputDecoration(
             errorText: null,
             errorStyle: TextStyle(height: 0),
-            contentPadding: EdgeInsets.all(10),
+            contentPadding: EdgeInsets.all(mainHeight*0.025),
             hintText: hintText,
             errorBorder: OutlineInputBorder(
               borderRadius: BorderRadius.all(Radius.circular(200)),
@@ -172,7 +173,7 @@ class _AddItem extends State<AddItem> {
             return null;            
           },
           style: TextStyle(
-            fontSize: mainHeight*0.05,
+            fontSize: mainHeight*0.04,
           ),
           controller: controller,
           focusNode: focus,
@@ -180,7 +181,7 @@ class _AddItem extends State<AddItem> {
             //helperText: ' ',
             errorText: null,
             errorStyle: TextStyle(height: 0),
-            contentPadding: EdgeInsets.all(10),
+            contentPadding: EdgeInsets.all(mainHeight*0.025),
             hintText: hintText,
             errorBorder: OutlineInputBorder(
               borderRadius: BorderRadius.all(Radius.circular(200)),
@@ -218,7 +219,7 @@ class _AddItem extends State<AddItem> {
     return Text(
       data,
       style: TextStyle(
-        fontSize: mainHeight*0.05,
+        fontSize: mainHeight*0.04,
       ),
     );
   }
@@ -229,18 +230,18 @@ class _AddItem extends State<AddItem> {
       child: Text(
           'cm,',
           style: TextStyle(
-            fontSize: mainHeight*0.05,
+            fontSize: mainHeight*0.04,
           ),
         ),
       );
   }
 
-  Widget addItem(double mainHeight) {
+  Widget addItem(double mainHeight, double mainWidth) {
     return ListView(
       controller: ScrollController(),
       children: <Widget>[
         Container(
-          padding: EdgeInsets.symmetric(horizontal: 20),
+          padding: EdgeInsets.symmetric(horizontal: mainHeight*0.02),
           //constraints: BoxConstraints.tightForFinite(),
           color: Colors.white,
           child: Form(
@@ -255,42 +256,98 @@ class _AddItem extends State<AddItem> {
               });
             },
             //autovalidate: true,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                setForm('item name', false, 0, hasChanged1, addController, myFocus1, mainHeight),
-                setSubtitle('with a length of...', mainHeight),
-                  //width: 500,
-                Row(
+            child: Container(
+              width: mainWidth,
+              height: mainHeight*0.7,
+              color: Colors.red,
+              //constraints: BoxConstraints(maxHeight: mainHeight, maxWidth: mainWidth),
+              child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
                     Expanded(
-                      child: setForm('eg. 666', true, 1, hasChanged2, addController2, myFocus2, mainHeight),
+                      child: Container(
+                        color: Colors.yellow,
+                        child: setForm('item name', false, 0, hasChanged1, addController, myFocus1, mainHeight),
+                      ),
                     ),
-                    setUnit(mainHeight),
-                  ],
-                ),
-                setSubtitle('height of...', mainHeight),
-                Row(
-                  children: <Widget>[
                     Expanded(
-                      child: setForm('eg. 1337', true, 2, hasChanged3, addController3, myFocus3, mainHeight),
+                      flex: 1,
+                      child: Container(
+                        alignment: Alignment.centerLeft,
+                        color: Colors.amber,
+                        child: setSubtitle('with a length of...', mainHeight),
+                      ),
                     ),
-                    setUnit(mainHeight),
-                  ],
-                ),
-                setSubtitle('and depth of...', mainHeight),
-                Row(
-                  children: <Widget>[
-                    //to do: ALLOW DECIMALS
                     Expanded(
-                      child: setForm('eg. 69', true, 3, hasChanged4, addController4, myFocus4, mainHeight),
+                      child: Container(
+                        color: Colors.yellow,
+                        child: Row(
+                          children: <Widget>[
+                            Expanded(
+                              flex: 4,
+                              child: setForm('eg. 666', true, 1, hasChanged2, addController2, myFocus2, mainHeight),
+                            ),
+                            Expanded(
+                              child: setUnit(mainHeight),
+                            ),
+                          ],
+                        ),
+                      ),
                     ),
-                    setUnit(mainHeight),
+                    Expanded(
+                      flex: 1,
+                      child: Container(
+                        color: Colors.amber,
+                        alignment: Alignment.centerLeft,
+                        child: setSubtitle('height of...', mainHeight),
+                      ),
+                    ),  
+                    Expanded(
+                      child: Container(
+                        color: Colors.yellow,
+                        child: Row(
+                          children: <Widget>[
+                            Expanded(
+                              flex: 4,
+                              child: setForm('eg. 1337', true, 2, hasChanged3, addController3, myFocus3, mainHeight),
+                            ),
+                            Expanded(
+                              child: setUnit(mainHeight),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    Expanded(
+                      flex: 1,
+                      child: Container(
+                        color: Colors.amber,
+                        alignment: Alignment.centerLeft,
+                        child: setSubtitle('and depth of...', mainHeight),
+                      ),
+                    ),
+                    Expanded(
+                      child: Container(
+                        color: Colors.yellow,
+                        child: Row(
+                          children: <Widget>[
+                            //to do: ALLOW DECIMALS
+                            Expanded(
+                              flex: 4,
+                              child: setForm('eg. 69', true, 3, hasChanged4, addController4, myFocus4, mainHeight),
+                            ),
+                            Expanded(
+                              child: setUnit(mainHeight),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
                   ],
-                ),
-              ],
-          ),
+              ),
+            ),
           ),
           ),
       ],
