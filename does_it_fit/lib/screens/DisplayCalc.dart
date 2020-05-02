@@ -81,13 +81,15 @@ OutlineInputBorder colorBorder(bool condition, Color good, Color bad) {
 String plural(String value, bool isFirst) {
   String item;
   if (isFirst) {
-      if (howmany1 == 1) {
-    item = value;
-  } else {
-    item = value + 's';
+    if (howmany1 == 1) {
+      item = value;
+    } else if (howmany1 > 1) {
+      item = value + 's';
+    } else {
+      item = value;
   }
-    return item;
-  }
+  return item;
+}
   return value;
 }
 
@@ -292,7 +294,8 @@ class _DisplayCalc extends State<DisplayCalc> {
                   child: FlatButton.icon(
                     icon: Icon(Icons.arrow_drop_down_circle, size: mainHeight*0.05),
                     label: Text(
-                    '$dropdownValue1',
+                    //'$dropdownValue1',
+                    '${plural(dropdownValue1, true)}',
                     style: TextStyle(
                       fontSize: mainHeight*0.05,
                       fontWeight: FontWeight.bold,

@@ -21,19 +21,26 @@ class _UnitList extends State<UnitList> {
             backgroundColor: Colors.white,
             elevation: 0,
             centerTitle: false,
-            title: Text(
-              'I wanna fit...',
-              style: TextStyle(
-                fontSize: mainHeight*0.05,
-                fontWeight: FontWeight.bold,
-                color: Colors.black
+            title: Container(
+              alignment: Alignment.centerLeft,
+              child: Text(
+                'I wanna fit...',
+                style: TextStyle(
+                  fontSize: mainHeight*0.05,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black
+                ),
               ),
             ),
             automaticallyImplyLeading: false,
             actions: <Widget>[
-              IconButton(
-                icon: Icon(Icons.clear, color: Colors.grey, size: mainHeight*0.05), 
-                onPressed: () => Navigator.pop(context)),
+              Container(
+                margin: EdgeInsets.only(right: mainHeight*0.02),
+                child: IconButton(
+                  icon: Icon(Icons.clear, size: mainHeight*0.05, color: Colors.grey), 
+                  onPressed: () => Navigator.pop(context)
+                ),
+              ),
             ],
           ),
       body: Container(
@@ -98,7 +105,7 @@ class _UnitList extends State<UnitList> {
         return Container(
           color: Colors.white,
           child: ListTile(
-          contentPadding: EdgeInsets.symmetric(vertical: mainHeight*0.01, horizontal: mainHeight*0.027),
+          contentPadding: EdgeInsets.symmetric(vertical: mainHeight*0.01, horizontal: mainHeight*0.02),
             title: Text(
               item.getName(),
               textAlign: TextAlign.left,
@@ -131,43 +138,49 @@ class _UnitList2 extends State<UnitList2> {
             backgroundColor: Colors.white,
             centerTitle: false,
             elevation: 0,
-            title: Row(
-              mainAxisSize: MainAxisSize.min,
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: <Widget>[
-                FlatButton(
-                  padding: EdgeInsets.only(left: 0, right: 10),
-                  //UnitList
-                  onPressed: () => Navigator.of(context).push(newRoute(UnitList())), 
-                  child: Text(
-                    '${dropdownValue1}s',
-                    style: TextStyle(
-                      decoration: TextDecoration.underline,
-                      decorationThickness: 2,
-                      decorationStyle: TextDecorationStyle.solid,
-                      color: Colors.black,
-                      fontSize: mainHeight*0.05,
-                      fontWeight: FontWeight.bold,
-                      fontStyle: FontStyle.italic,
+            title: Container(
+              alignment: Alignment.centerLeft,
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: <Widget>[
+                  FlatButton(
+                    padding: EdgeInsets.only(left: 0, right: mainHeight*0.015),
+                    //UnitList
+                    onPressed: () => Navigator.of(context).push(newRoute(UnitList())), 
+                    child: Text(
+                      '${dropdownValue1}s',
+                      style: TextStyle(
+                        decoration: TextDecoration.underline,
+                        decorationThickness: 2,
+                        decorationStyle: TextDecorationStyle.solid,
+                        color: Colors.black,
+                        fontSize: mainHeight*0.05,
+                        fontWeight: FontWeight.bold,
+                        fontStyle: FontStyle.italic,
+                      ),
                     ),
-                  ),
-                  ),
-                  Text(
-                    'in a...',
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: mainHeight*0.05,
-                      fontWeight: FontWeight.bold,
                     ),
-                  ),
-              ],
+                    Text(
+                      'in a...',
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: mainHeight*0.05,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                ],
+              ),
             ),
             automaticallyImplyLeading: false,
             actions: <Widget>[
-              IconButton(
-                padding: EdgeInsets.only(right: 25),
-                icon: Icon(Icons.clear, size: mainHeight*0.05, color: Colors.grey), 
-                onPressed: () => Navigator.pop(context)),
+              Container(
+                margin: EdgeInsets.only(right: mainHeight*0.02),
+                  child: IconButton(
+                  icon: Icon(Icons.clear, size: mainHeight*0.05, color: Colors.grey), 
+                  onPressed: () => Navigator.pop(context)
+                ),
+              ),
             ],
       ),
       body: renderList(mainHeight),
@@ -220,7 +233,7 @@ class _UnitList2 extends State<UnitList2> {
         return Container(
           color: Colors.white,
           child: ListTile(
-          contentPadding: EdgeInsets.symmetric(vertical: mainHeight*0.01, horizontal: mainHeight*0.027),
+          contentPadding: EdgeInsets.symmetric(vertical: mainHeight*0.01, horizontal: mainHeight*0.02),
           title: Text(
             item.getName(),
             textAlign: TextAlign.left,
