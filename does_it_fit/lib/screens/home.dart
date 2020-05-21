@@ -1,16 +1,10 @@
-//import 'package:does_it_fit/models/Dependencies.dart';
 import 'package:does_it_fit/screens/DisplayCalc.dart';
-import 'package:does_it_fit/screens/Dropdown.dart';
-import '../main.dart';
 import 'package:flutter/material.dart';
 
 //final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
 
-class HomePage extends StatelessWidget { 
-
+class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
-
-    
     return Material(
       child: DisplayCalc(),
     );
@@ -18,15 +12,11 @@ class HomePage extends StatelessWidget {
 }
 
 class CustomAppbar extends StatelessWidget {
-  
   final double barHeight = 0;
 
   @override
   Widget build(BuildContext context) {
-    final double statusBarHeight = MediaQuery
-      .of(context) 
-      .padding
-      .top;
+    final double statusBarHeight = MediaQuery.of(context).padding.top;
 
     return new Container(
       color: Colors.white,
