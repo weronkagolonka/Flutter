@@ -58,59 +58,69 @@ class _AddItem extends State<AddItem> {
   }
 
   Widget build(BuildContext context) {
+    FocusScopeNode currFocus = FocusScope.of(context);
+
     double mainHeight = MediaQuery.of(context).size.height;
     double mainWidth = MediaQuery.of(context).size.width;
 
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 0,
-        centerTitle: false,
-        title: Container(
-          alignment: Alignment.centerLeft,
-          child: Text(
-            'I wanna add...',
-            style: TextStyle(
-                fontSize: mainHeight * 0.05,
-                fontWeight: FontWeight.bold,
-                color: Colors.black),
-          ),
-        ),
-        automaticallyImplyLeading: false,
-        actions: <Widget>[
-          Container(
-            margin: EdgeInsets.only(right: mainHeight * 0.02),
-            child: IconButton(
-                icon: Icon(Icons.clear,
-                    color: Colors.grey, size: mainHeight * 0.05),
-                onPressed: () => Navigator.pop(context)),
-          ),
-        ],
-      ),
-      body: Container(
-        color: Colors.white,
-        child: addItem(mainHeight, mainWidth),
-      ),
-      bottomNavigationBar: BottomAppBar(
-        elevation: 0,
-        notchMargin: 8,
-        child: Container(
-          margin: EdgeInsets.symmetric(horizontal: mainHeight * 0.02),
-          child: FlatButton(
-            onPressed:
-                text1 ? () => filledFormBtn(length, height, depth, name) : null,
-            color: Colors.black,
-            disabledColor: Colors.grey,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(Radius.circular(50)),
-            ),
-            padding: EdgeInsets.all(mainHeight * 0.015),
+    return GestureDetector(
+      onTap: () {
+        if (!currFocus.hasPrimaryFocus) {
+          currFocus.unfocus();
+        }
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          backgroundColor: Colors.white,
+          elevation: 0,
+          centerTitle: false,
+          title: Container(
+            alignment: Alignment.centerLeft,
             child: Text(
-              'add',
+              'I wanna add...',
               style: TextStyle(
-                fontSize: mainHeight * 0.05,
-                fontWeight: FontWeight.bold,
-                color: Colors.white,
+                  fontSize: mainHeight * 0.05,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black),
+            ),
+          ),
+          automaticallyImplyLeading: false,
+          actions: <Widget>[
+            Container(
+              margin: EdgeInsets.only(right: mainHeight * 0.02),
+              child: IconButton(
+                  icon: Icon(Icons.clear,
+                      color: Colors.grey, size: mainHeight * 0.05),
+                  onPressed: () => Navigator.pop(context)),
+            ),
+          ],
+        ),
+        body: Container(
+          color: Colors.white,
+          child: addItem(mainHeight, mainWidth),
+        ),
+        bottomNavigationBar: BottomAppBar(
+          elevation: 0,
+          notchMargin: 8,
+          child: Container(
+            margin: EdgeInsets.symmetric(horizontal: mainHeight * 0.02),
+            child: FlatButton(
+              onPressed: text1
+                  ? () => filledFormBtn(length, height, depth, name)
+                  : null,
+              color: Colors.black,
+              disabledColor: Colors.grey,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(50)),
+              ),
+              padding: EdgeInsets.all(mainHeight * 0.015),
+              child: Text(
+                'add',
+                style: TextStyle(
+                  fontSize: mainHeight * 0.05,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                ),
               ),
             ),
           ),

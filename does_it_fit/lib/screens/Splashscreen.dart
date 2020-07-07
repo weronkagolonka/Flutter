@@ -1,5 +1,5 @@
 import 'dart:async';
-
+import '../colors.dart' as colors;
 import 'package:does_it_fit/screens/home.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -11,7 +11,7 @@ class SplashScreen extends StatefulWidget {
   }
 }
 
-class _SplashScreen extends State<SplashScreen>{  
+class _SplashScreen extends State<SplashScreen> {
   @override
   initState() {
     super.initState();
@@ -21,7 +21,7 @@ class _SplashScreen extends State<SplashScreen>{
   Widget build(BuildContext contex) {
     return Material(
       child: Container(
-        color: Colors.green[500],
+        color: colors.GREEN_PRIMARY,
         child: Center(
           child: Text(
             'nice',
@@ -41,6 +41,7 @@ class _SplashScreen extends State<SplashScreen>{
   }
 
   route() {
-    Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage()));
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => HomePage()));
   }
 }

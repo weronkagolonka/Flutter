@@ -109,10 +109,7 @@ class _UnitList extends State<UnitList> {
                 ),
                 onTap: () {
                   setState(() {
-                    print(data.currentUnit1.getName());
                     data.currentUnit1 = item;
-                    print(data.currentUnit1.getName());
-                    //dropdownValue1 = item.getName();
                     Navigator.pushReplacement(context, newRoute(DisplayCalc()));
                   });
                 },
@@ -121,12 +118,34 @@ class _UnitList extends State<UnitList> {
             secondaryActions: <Widget>[
               IconSlideAction(
                 icon: Icons.edit,
-                onTap: null,
+                onTap: () {
+                  //edit screen
+                },
               ),
               IconSlideAction(
-                //caption: 'delete',
                 icon: Icons.delete,
-                onTap: null,
+                onTap: () {
+                  setState(() {
+                    if (data.currentUnit1 == item) {
+                      if (index > 0) {
+                        data.currentUnit1 = toRender[index - 1];
+                      } else {
+                        data.currentUnit1 = toRender[index + 1];
+                      }
+                    }
+
+                    if (data.currentUnit2 == item) {
+                      if (index > 0) {
+                        data.currentUnit2 = toRender[index - 1];
+                      } else {
+                        data.currentUnit2 = toRender[index + 1];
+                      }
+                    }
+
+                    data.getUnits().remove(item);
+                    toRender.remove(item);
+                  });
+                },
               ),
             ],
           );

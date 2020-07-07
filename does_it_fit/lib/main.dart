@@ -15,20 +15,11 @@ class MyApp extends StatelessWidget {
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
       systemNavigationBarIconBrightness: Brightness.dark,
     ));
-    return GestureDetector(
-      onTap: () {
-        FocusScopeNode currentFocus = FocusScope.of(context);
-
-        if (!currentFocus.hasPrimaryFocus) {
-          currentFocus.unfocus();
-        }
-      },
-      child: MaterialApp(
-        title: 'Does is fit?',
-        theme: ThemeData(fontFamily: 'Product Sans'),
-        home: HomePage(),
-        //theme: ThemeData(fontFamily: ),
-      ),
+    return MaterialApp(
+      title: 'Does is fit?',
+      theme: ThemeData(fontFamily: 'Product Sans'),
+      home: HomePage(),
+      //theme: ThemeData(fontFamily: ),
     );
   }
 }
