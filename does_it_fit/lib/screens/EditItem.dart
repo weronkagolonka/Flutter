@@ -1,20 +1,23 @@
+import 'package:does_it_fit/main.dart';
 import 'package:does_it_fit/models/Dependencies.dart';
 import 'package:does_it_fit/models/Unit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import '../main.dart';
-import './Splashscreen.dart';
 
-class AddItem extends StatefulWidget {
-  _AddItem createState() => _AddItem();
+class EditItem extends StatefulWidget {
+  final Unit unit;
+
+  EditItem({@required this.unit});
+
+  _EditItem createState() => _EditItem();
 }
 
-class _AddItem extends State<AddItem> {
+class _EditItem extends State<EditItem> {
   static final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  TextEditingController addController,
-      addController2,
-      addController3,
-      addController4;
+  TextEditingController editingController,
+      editingController2,
+      editingController3,
+      editingController4;
   FocusNode myFocus1 = FocusNode();
   FocusNode myFocus2 = FocusNode();
   FocusNode myFocus3 = FocusNode();
@@ -27,39 +30,45 @@ class _AddItem extends State<AddItem> {
 
   @override
   void dispose() {
-    addController.dispose();
-    addController2.dispose();
-    addController3.dispose();
-    addController4.dispose();
+    editingController.dispose();
+    editingController2.dispose();
+    editingController3.dispose();
+    editingController4.dispose();
+
     super.dispose();
   }
 
   @override
   initState() {
-    addController = TextEditingController();
-    addController2 = TextEditingController();
-    addController3 = TextEditingController();
-    addController4 = TextEditingController();
+    editingController = TextEditingController();
+    editingController.text = widget.unit.name;
+    name = widget.unit.name;
+
+    editingController2 = TextEditingController();
+    editingController2.text = widget.unit.length.toInt().toString();
+    length = widget.unit.length;
+
+    editingController3 = TextEditingController();
+    editingController3.text = widget.unit.height.toInt().toString();
+    height = widget.unit.height;
+
+    editingController4 = TextEditingController();
+    editingController4.text = widget.unit.width.toInt().toString();
+    depth = widget.unit.width;
+
     text1 = false;
     hasChanged1 = false;
     hasChanged1 = false;
     hasChanged1 = false;
     hasChanged1 = false;
+
     super.initState();
   }
 
-  bool isOk(bool key1, bool key2, bool key3, bool key4) {
-    if (key1 && key2 && key3 && key4)
-      return true;
-    else
-      return false;
-  }
-
   Widget build(BuildContext context) {
-    FocusScopeNode currFocus = FocusScope.of(context);
-
     double mainHeight = MediaQuery.of(context).size.height;
     double mainWidth = MediaQuery.of(context).size.width;
+    FocusScopeNode currFocus = FocusScope.of(context);
 
     return GestureDetector(
       onTap: () {
@@ -75,7 +84,7 @@ class _AddItem extends State<AddItem> {
           title: Container(
             alignment: Alignment.centerLeft,
             child: Text(
-              'I wanna add...',
+              'I wanna edit...',
               style: TextStyle(
                   fontSize: mainHeight * 0.05,
                   fontWeight: FontWeight.bold,
@@ -114,7 +123,7 @@ class _AddItem extends State<AddItem> {
               ),
               padding: EdgeInsets.all(mainHeight * 0.015),
               child: Text(
-                'add',
+                'save',
                 style: TextStyle(
                   fontSize: mainHeight * 0.05,
                   fontWeight: FontWeight.bold,
@@ -123,6 +132,153 @@ class _AddItem extends State<AddItem> {
               ),
             ),
           ),
+        ),
+      ),
+    );
+  }
+
+  Widget addItem(double mainHeight, double mainWidth) {
+    return ListView(
+      controller: ScrollController(),
+      children: <Widget>[
+        Container(
+          margin: EdgeInsets.symmetric(horizontal: mainHeight * 0.02),
+          //constraints: BoxConstraints.tightForFinite(),
+          color: Colors.white,
+          child: Form(
+            key: _formKey,
+            onChanged: () {
+              setState(() {
+                if (editingController.text != '' &&
+                    editingController2.text != '' &&
+                    editingController3.text != '' &&
+                    editingController4.text != '') {
+                  text1 = true;
+                } else
+                  text1 = false;
+              });
+            },
+            child: Container(
+              width: mainWidth,
+              height: mainHeight * 0.6,
+              margin: EdgeInsets.only(top: mainHeight * 0.02),
+              //color: Colors.red,
+              //constraints: BoxConstraints(maxHeight: mainHeight, maxWidth: mainWidth),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  Expanded(
+                    child: Container(
+                      //color: Colors.yellow,
+                      child: setForm('item name', false, 0, hasChanged1,
+                          editingController, myFocus1, mainHeight),
+                    ),
+                  ),
+                  Expanded(
+                    flex: 1,
+                    child: Container(
+                      alignment: Alignment.centerLeft,
+                      //color: Colors.amber,
+                      child: setSubtitle('with a length of...', mainHeight),
+                    ),
+                  ),
+                  Expanded(
+                    child: Container(
+                      //color: Colors.yellow,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          Expanded(
+                            flex: 4,
+                            child: setForm('eg. 666', true, 1, hasChanged2,
+                                editingController2, myFocus2, mainHeight),
+                          ),
+                          Expanded(
+                            child: setUnit(mainHeight),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    flex: 1,
+                    child: Container(
+                      //color: Colors.amber,
+                      alignment: Alignment.centerLeft,
+                      child: setSubtitle('height of...', mainHeight),
+                    ),
+                  ),
+                  Expanded(
+                    child: Container(
+                      //color: Colors.yellow,
+                      child: Row(
+                        children: <Widget>[
+                          Expanded(
+                            flex: 4,
+                            child: setForm('eg. 1337', true, 2, hasChanged3,
+                                editingController3, myFocus3, mainHeight),
+                          ),
+                          Expanded(
+                            child: setUnit(mainHeight),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    flex: 1,
+                    child: Container(
+                      //color: Colors.amber,
+                      alignment: Alignment.centerLeft,
+                      child: setSubtitle('and depth of...', mainHeight),
+                    ),
+                  ),
+                  Expanded(
+                    child: Container(
+                      //color: Colors.yellow,
+                      child: Row(
+                        children: <Widget>[
+                          //to do: ALLOW DECIMALS
+                          Expanded(
+                            flex: 4,
+                            child: setForm('eg. 69', true, 3, hasChanged4,
+                                editingController4, myFocus4, mainHeight),
+                          ),
+                          Expanded(
+                            child: setUnit(mainHeight),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget setSubtitle(String data, double mainHeight) {
+    return Text(
+      data,
+      style: TextStyle(
+        fontSize: mainHeight * 0.04,
+      ),
+    );
+  }
+
+  Widget setUnit(double mainHeight) {
+    return Container(
+      //padding: EdgeInsets.only(left: mainHeight*0.02),
+      alignment: Alignment.centerRight,
+      child: Text(
+        'cm,',
+        style: TextStyle(
+          fontSize: mainHeight * 0.04,
         ),
       ),
     );
@@ -145,6 +301,9 @@ class _AddItem extends State<AddItem> {
         controller: controller,
         focusNode: focus,
         keyboardType: TextInputType.number,
+        inputFormatters: <TextInputFormatter>[
+          WhitelistingTextInputFormatter.digitsOnly,
+        ],
         decoration: InputDecoration(
           errorText: null,
           errorStyle: TextStyle(height: 0),
@@ -202,7 +361,6 @@ class _AddItem extends State<AddItem> {
         controller: controller,
         focusNode: focus,
         decoration: InputDecoration(
-          //helperText: ' ',
           errorText: null,
           errorStyle: TextStyle(height: 0),
           contentPadding: EdgeInsets.all(mainHeight * 0.02),
@@ -243,167 +401,41 @@ class _AddItem extends State<AddItem> {
     }
   }
 
-  Widget setSubtitle(String data, double mainHeight) {
-    return Text(
-      data,
-      style: TextStyle(
-        fontSize: mainHeight * 0.04,
-      ),
-    );
-  }
-
-  Widget setUnit(double mainHeight) {
-    return Container(
-      //padding: EdgeInsets.only(left: mainHeight*0.02),
-      alignment: Alignment.centerRight,
-      child: Text(
-        'cm,',
-        style: TextStyle(
-          fontSize: mainHeight * 0.04,
-        ),
-      ),
-    );
-  }
-
-  Widget addItem(double mainHeight, double mainWidth) {
-    return ListView(
-      controller: ScrollController(),
-      children: <Widget>[
-        Container(
-          margin: EdgeInsets.symmetric(horizontal: mainHeight * 0.02),
-          //constraints: BoxConstraints.tightForFinite(),
-          color: Colors.white,
-          child: Form(
-            key: _formKey,
-            onChanged: () {
-              setState(() {
-                if (addController.text != '' &&
-                    addController2.text != '' &&
-                    addController3.text != '' &&
-                    addController4.text != '') {
-                  text1 = true;
-                } else
-                  text1 = false;
-              });
-            },
-            //autovalidate: true,
-            child: Container(
-              width: mainWidth,
-              height: mainHeight * 0.6,
-              margin: EdgeInsets.only(top: mainHeight * 0.02),
-              //color: Colors.red,
-              //constraints: BoxConstraints(maxHeight: mainHeight, maxWidth: mainWidth),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
-                  Expanded(
-                    child: Container(
-                      //color: Colors.yellow,
-                      child: setForm('item name', false, 0, hasChanged1,
-                          addController, myFocus1, mainHeight),
-                    ),
-                  ),
-                  Expanded(
-                    flex: 1,
-                    child: Container(
-                      alignment: Alignment.centerLeft,
-                      //color: Colors.amber,
-                      child: setSubtitle('with a length of...', mainHeight),
-                    ),
-                  ),
-                  Expanded(
-                    child: Container(
-                      //color: Colors.yellow,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          Expanded(
-                            flex: 4,
-                            child: setForm('eg. 666', true, 1, hasChanged2,
-                                addController2, myFocus2, mainHeight),
-                          ),
-                          Expanded(
-                            child: setUnit(mainHeight),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  Expanded(
-                    flex: 1,
-                    child: Container(
-                      //color: Colors.amber,
-                      alignment: Alignment.centerLeft,
-                      child: setSubtitle('height of...', mainHeight),
-                    ),
-                  ),
-                  Expanded(
-                    child: Container(
-                      //color: Colors.yellow,
-                      child: Row(
-                        children: <Widget>[
-                          Expanded(
-                            flex: 4,
-                            child: setForm('eg. 1337', true, 2, hasChanged3,
-                                addController3, myFocus3, mainHeight),
-                          ),
-                          Expanded(
-                            child: setUnit(mainHeight),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  Expanded(
-                    flex: 1,
-                    child: Container(
-                      //color: Colors.amber,
-                      alignment: Alignment.centerLeft,
-                      child: setSubtitle('and depth of...', mainHeight),
-                    ),
-                  ),
-                  Expanded(
-                    child: Container(
-                      //color: Colors.yellow,
-                      child: Row(
-                        children: <Widget>[
-                          //to do: ALLOW DECIMALS
-                          Expanded(
-                            flex: 4,
-                            child: setForm('eg. 69', true, 3, hasChanged4,
-                                addController4, myFocus4, mainHeight),
-                          ),
-                          Expanded(
-                            child: setUnit(mainHeight),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ),
-      ],
-    );
-  }
-
-  filledFormBtn(double length, double height, double depth, String name) async {
+  filledFormBtn(
+    double length,
+    double height,
+    double depth,
+    String name,
+  ) async {
     Dependencies database = Dependencies.instance;
     if (_formKey.currentState.validate()) {
-      Unit unit = Unit(name, height, depth, length);
-      await database.insert(unit);
-      //data.unitList.createUnit(name, height, depth, length);
-      Navigator.pushReplacement(context,
-          MaterialPageRoute(builder: (BuildContext context) => SplashScreen()));
-      //_controller.close();
-      addController.clear();
-      addController2.clear();
-      addController3.clear();
-      addController4.clear();
+      Unit oldUnit = widget.unit;
+      print(oldUnit.name);
+      setState(() {
+        widget.unit.name = name;
+        widget.unit.height = height;
+        widget.unit.length = length;
+        widget.unit.width = depth;
+
+        if (oldUnit.id == data.currentUnit1.id) {
+          print("1");
+          data.currentUnit1 = widget.unit;
+        }
+
+        if (oldUnit.id == data.currentUnit2.id) {
+          print("2");
+
+          data.currentUnit2 = widget.unit;
+        }
+      });
+
+      await database.update(widget.unit);
+
+      Navigator.pop(context);
+      editingController.clear();
+      editingController2.clear();
+      editingController3.clear();
+      editingController4.clear();
     }
   }
 }

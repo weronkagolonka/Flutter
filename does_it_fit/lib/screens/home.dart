@@ -1,13 +1,23 @@
 import 'package:does_it_fit/screens/DisplayCalc.dart';
 import 'package:flutter/material.dart';
 
+import '../main.dart';
+
 //final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
 
 class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
-    return Material(
-      child: DisplayCalc(),
-    );
+    return FutureBuilder(
+        future: data.initializeUnits(),
+        builder: (context, snapshot) {
+          if (data.currentUnit1 == null || data.currentUnit2 == null) {
+            return CircularProgressIndicator();
+          } else {
+            return Material(
+              child: DisplayCalc(),
+            );
+          }
+        });
   }
 }
 

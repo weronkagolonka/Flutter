@@ -1,9 +1,12 @@
 import 'dart:async';
+import 'package:does_it_fit/main.dart';
+import 'package:does_it_fit/models/Dependencies.dart';
+import 'package:does_it_fit/models/StateDate.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
 import '../models/Unit.dart';
 import './Dropdown.dart';
-import '../main.dart';
 import '../colors.dart' as colors;
 
 class DisplayCalc extends StatefulWidget {
@@ -18,6 +21,7 @@ class _DisplayCalc extends State<DisplayCalc> {
   GlobalKey<_DisplayCalc> myKey = new GlobalKey();
   int howmany1 = 0;
   String test = '.';
+  Dependencies db = Dependencies.instance;
 
   @override
   void dispose() {
@@ -32,7 +36,7 @@ class _DisplayCalc extends State<DisplayCalc> {
     myController.text = howmany1.toString();
   }
 
-  bool display() {
+  bool display(StateData data) {
     if (getCalc(data.currentUnit1, data.currentUnit2, howmany1) >= 1 ||
         getCalc(data.currentUnit1, data.currentUnit2, howmany1).isNaN) {
       return true;
@@ -41,16 +45,13 @@ class _DisplayCalc extends State<DisplayCalc> {
     }
   }
 
-  double getCalc(Unit currentUnit1, Unit currentUnit2, int howmany) {
-    double balance = data.unitList.calculate(
-        data.getUnits().indexOf(data.currentUnit1),
-        data.getUnits().indexOf(data.currentUnit2),
-        howmany);
+  double getCalc(Unit u1, Unit u2, int howmany) {
+    double balance = db.calculate(u1, u2, howmany);
     return balance;
   }
 
-  Widget canOrCant(double height) {
-    if (display()) {
+  Widget canOrCant(double height, StateData data) {
+    if (display(data)) {
       return RichText(
         textAlign: TextAlign.center,
         text: TextSpan(
@@ -111,15 +112,7 @@ class _DisplayCalc extends State<DisplayCalc> {
     return value;
   }
 
-  List<String> fillString() {
-    List<String> strUnits = new List<String>();
-    for (Unit u in data.unitList.getAllUnits()) {
-      strUnits.add(u.getName());
-    }
-    return strUnits;
-  }
-
-  double calcHeight(double height) {
+  double calcHeight(double height, StateData data) {
     double balance = getCalc(data.currentUnit1, data.currentUnit2, howmany1);
 
     if (balance >= 1) {
@@ -157,13 +150,13 @@ class _DisplayCalc extends State<DisplayCalc> {
     loopActive = false;
   }
 
-  Color background() {
-    if (display() &&
+  Color background(StateData data) {
+    if (display(data) &&
         (getCalc(data.currentUnit1, data.currentUnit2, howmany1).isNaN ||
             getCalc(data.currentUnit1, data.currentUnit2, howmany1)
                 .isInfinite)) {
       return Colors.white;
-    } else if (display() &&
+    } else if (display(data) &&
         getCalc(data.currentUnit1, data.currentUnit2, howmany1).isFinite) {
       return colors.GREEN_SECUNDARY;
     } else {
@@ -193,8 +186,8 @@ class _DisplayCalc extends State<DisplayCalc> {
             AnimatedContainer(
               alignment: Alignment.bottomCenter,
               duration: Duration(milliseconds: 500),
-              color: background(),
-              height: calcHeight(mainHeight),
+              color: background(data),
+              height: calcHeight(mainHeight, data),
             ),
             Container(
               width: mainWidth,
@@ -212,7 +205,7 @@ class _DisplayCalc extends State<DisplayCalc> {
                     child: Container(
                       //color: Colors.blue,
                       alignment: Alignment.center,
-                      child: canOrCant(mainHeight),
+                      child: canOrCant(mainHeight, data),
                     ),
                   ),
                   Expanded(
@@ -220,7 +213,7 @@ class _DisplayCalc extends State<DisplayCalc> {
                     child: Container(
                       decoration: BoxDecoration(
                         color: Colors.white,
-                        border: display()
+                        border: display(data)
                             ? Border.all(
                                 color: colors.GREEN_PRIMARY,
                                 width: 5,
@@ -320,61 +313,38 @@ class _DisplayCalc extends State<DisplayCalc> {
                       child: Container(
                         //color: Colors.green,
                         alignment: Alignment.center,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            Spacer(),
-                            Flexible(
-                              fit: FlexFit.tight,
-                              flex:
-                                  calcFlex(data.currentUnit1.getName().length),
-                              child: Container(
-                                //color: Colors.red,
-                                alignment: Alignment.centerRight,
-                                child: Column(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: <Widget>[
-                                    Container(
-                                      //color: Colors.yellow,
-                                      child: Text(
-                                        //'$dropdownValue1',
-                                        '${plural(data.currentUnit1.getName(), true)}',
-                                        overflow: TextOverflow.ellipsis,
-                                        style: TextStyle(
-                                          fontSize: mainHeight * 0.05,
-                                          fontWeight: FontWeight.bold,
-                                          fontStyle: FontStyle.italic,
-                                        ),
-                                        textAlign: TextAlign.left,
-                                      ),
-                                    ),
-                                    Container(
-                                      height: mainHeight * 0.006,
-                                      width: (mainHeight * 0.027) *
-                                          plural(data.currentUnit1.getName(),
-                                                  true)
-                                              .length,
-                                      decoration: BoxDecoration(
-                                        color: Colors.black,
-                                        borderRadius: BorderRadius.circular(40),
-                                      ),
-                                    ),
-                                  ],
+                        child: Container(
+                          //color: Colors.red,
+                          alignment: Alignment.center,
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: <Widget>[
+                              Container(
+                                //color: Colors.yellow,
+                                child: Text(
+                                  //'$dropdownValue1',
+                                  '${plural(data.currentUnit1.getName(), true)}',
+                                  overflow: TextOverflow.ellipsis,
+                                  style: TextStyle(
+                                    fontSize: mainHeight * 0.05,
+                                    fontWeight: FontWeight.bold,
+                                    fontStyle: FontStyle.italic,
+                                  ),
+                                  textAlign: TextAlign.left,
                                 ),
                               ),
-                            ),
-                            Flexible(
-                              child: Container(
-                                alignment: Alignment.centerLeft,
-                                //color: Colors.blue,
-                                child: Icon(
-                                  Icons.arrow_drop_down,
-                                  size: mainHeight * 0.05,
+                              Container(
+                                height: mainHeight * 0.006,
+                                width: (mainHeight * 0.027) *
+                                    plural(data.currentUnit1.getName(), true)
+                                        .length,
+                                decoration: BoxDecoration(
+                                  color: Colors.black,
+                                  borderRadius: BorderRadius.circular(40),
                                 ),
                               ),
-                            ),
-                            Spacer(),
-                          ],
+                            ],
+                          ),
                         ),
                       ),
                     ),
@@ -428,59 +398,37 @@ class _DisplayCalc extends State<DisplayCalc> {
                       child: Container(
                         //color: Colors.green,
                         alignment: Alignment.center,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            Spacer(),
-                            Flexible(
-                              fit: FlexFit.tight,
-                              flex:
-                                  calcFlex(data.currentUnit2.getName().length),
-                              child: Container(
-                                //color: Colors.red,
-                                alignment: Alignment.centerRight,
-                                child: Column(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: <Widget>[
-                                    Container(
-                                      //color: Colors.yellow,
-                                      child: Text(
-                                        //'$dropdownValue1',
-                                        '${data.currentUnit2.getName()}',
-                                        overflow: TextOverflow.ellipsis,
-                                        style: TextStyle(
-                                          fontSize: mainHeight * 0.05,
-                                          fontWeight: FontWeight.bold,
-                                          fontStyle: FontStyle.italic,
-                                        ),
-                                        textAlign: TextAlign.left,
-                                      ),
-                                    ),
-                                    Container(
-                                      height: mainHeight * 0.006,
-                                      width: (mainHeight * 0.027) *
-                                          data.currentUnit2.getName().length,
-                                      decoration: BoxDecoration(
-                                        color: Colors.black,
-                                        borderRadius: BorderRadius.circular(40),
-                                      ),
-                                    ),
-                                  ],
+                        child: Container(
+                          //color: Colors.red,
+                          alignment: Alignment.center,
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: <Widget>[
+                              Container(
+                                //color: Colors.yellow,
+                                child: Text(
+                                  //'$dropdownValue1',
+                                  '${data.currentUnit2.getName()}',
+                                  overflow: TextOverflow.ellipsis,
+                                  style: TextStyle(
+                                    fontSize: mainHeight * 0.05,
+                                    fontWeight: FontWeight.bold,
+                                    fontStyle: FontStyle.italic,
+                                  ),
+                                  textAlign: TextAlign.left,
                                 ),
                               ),
-                            ),
-                            Flexible(
-                              child: Container(
-                                alignment: Alignment.centerLeft,
-                                //color: Colors.blue,
-                                child: Icon(
-                                  Icons.arrow_drop_down,
-                                  size: mainHeight * 0.05,
+                              Container(
+                                height: mainHeight * 0.006,
+                                width: (mainHeight * 0.027) *
+                                    data.currentUnit2.getName().length,
+                                decoration: BoxDecoration(
+                                  color: Colors.black,
+                                  borderRadius: BorderRadius.circular(40),
                                 ),
                               ),
-                            ),
-                            Spacer(),
-                          ],
+                            ],
+                          ),
                         ),
                       ),
                     ),
